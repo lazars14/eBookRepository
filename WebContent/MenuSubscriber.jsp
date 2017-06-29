@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<link href="css/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/overlay.js"></script>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -6,8 +8,6 @@
 <c:if test="${sessionScope.subscriber == null}">
 	<c:redirect url="MenuVisitorServlet"/>
 </c:if>
-
-<c:set var="subscriberCat" value="${ sessionScope.subscriber }"/>
 
 <c:set var="language" value="${sessionScope.language}"/>
 <c:if test="${language == null}">
@@ -19,6 +19,7 @@
 <jsp:useBean id="subscriberCategory" type="entities.Category" scope="request"/>
 <jsp:useBean id="subscriberCategories" type="java.util.List" scope="request"/>
 <jsp:useBean id="subscriberBooks" type="java.util.List" scope="request"/>
+<jsp:useBean id="subscribed" type="java.lang.String" scope="request"/>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -35,7 +36,7 @@
 	<table border=1>
 		<tr>
 			<c:forEach items="${ subscriberCategories }" var="i">
-				<th><a href="MenuSubscriberServlet?id=${ i.categoryId }&login=false"><c:out value="${ i.categoryName }"/></a></th>
+				<th><a href="MenuSubscriberServlet?id=${ i.categoryId }"><c:out value="${ i.categoryName }"/></a></th>
 			</c:forEach>
 		</tr>
 	</table>
@@ -54,7 +55,7 @@
 			<th><fmt:message key="skidanje"/></th>
 			<th></th>
 		</tr>
-	<c:forEach items="${ userBooksForCategory }" var="i">
+	<c:forEach items="${ subscriberBooks }" var="i">
 		<tr>
 			<td align="center"><c:out value="${rb3}"></c:out></td>
 			<td align="center">${ i.EBooktitle }</td>
@@ -64,18 +65,11 @@
 			<td align="center">${ i.EBooklanguage.languageName }</td>
 			
 			<c:choose>
-				<c:when test="${ subscriberCat == null }">
-					<td align="center"><a href="BookDownloadServlet?id=${ i.eBookId }"><img src="images/download.png"></a></td>
+				<c:when test="${ subscribed == '1' }">
+					<td align="center"><a href="BookDownloadServlet?id=${ i.EBookid }"><img src="images/download.png"></a></td>
 				</c:when>
 				<c:otherwise>
-					<c:choose>
-						<c:when test="${ subscriberCat == i.eBookcategory }">
-							<td align="center"><a href="BookDownloadServlet?id=${ i.eBookId }"><img src="images/download.png"></a></td>
-						</c:when>
-						<c:otherwise>
-							<td align="center"><img src="images/download.png" onclick="openOverlay('banner')"></td>
-						</c:otherwise>
-					</c:choose>
+					<td align="center"><img src="images/download.png" onclick="openOverlay('banner')"></td>
 				</c:otherwise>
 			</c:choose>
 			
@@ -88,7 +82,7 @@
 	<div id="banner" class="overlay">
         <a href="javascript:void(0)" class="closebtn" onclick="closeOverlay('banner')">&times;</a>
         <div class="overlay-content">
-            <h2>Morate da se registrujete kako biste preuzili sadrzaj!</h2>
+            <h2>Morate da se registrujete za ovu kategoriju kako biste preuzili sadrzaj!</h2>
             </br>
             <a href="#">Registracija</a>
         </div>

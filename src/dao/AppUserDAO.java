@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import entities.AppUser;
+import entities.Category;
 
 public class AppUserDAO extends GenericDAO<AppUser, Integer> {
 	
@@ -28,5 +29,15 @@ public class AppUserDAO extends GenericDAO<AppUser, Integer> {
 		loggedUser.setAppUserLastname(lastname);
 		em.merge(loggedUser);
 		em.close();
+	}
+	
+	public String checkIfSubscribed(AppUser subscriber, Category bookCategory){
+		int subscriberCategoryId = subscriber.getAppUserCategoryId().getCategoryId();
+		
+		if(subscriberCategoryId == bookCategory.getCategoryId()){
+			return "1";
+		}
+		
+		return "0";
 	}
 }

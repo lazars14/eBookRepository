@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import dao.AppUserDAO;
 import dao.CategoryDAO;
 import dao.EbookDAO;
 import entities.AppUser;
@@ -25,6 +26,8 @@ public class MenuSubscriberServlet extends HttpServlet {
 	
 	private EbookDAO eBookDao;
 	
+	private AppUserDAO appUserDao;
+	
     public MenuSubscriberServlet() {
         super();
     }
@@ -35,6 +38,7 @@ public class MenuSubscriberServlet extends HttpServlet {
 		
 		categoryDao = new CategoryDAO();
 		eBookDao = new EbookDAO();
+		appUserDao = new AppUserDAO();
 		
 		try
 		{
@@ -44,36 +48,24 @@ public class MenuSubscriberServlet extends HttpServlet {
 			}
 			else
 			{	
-				String login = request.getParameter("login");
-				
-				AppUser loggedUser;
 				Category subscriberCategory = null;
 				
-				if(login.equals("false")){
-					try
-					{
-						categoryId = Integer.parseInt(request.getParameter("id"));
-					}
-					catch(NumberFormatException e)
-					{
-						categoryId = 1;
-					}
-					
-					subscriberCategory = categoryDao.findById(categoryId);
-					
-				} else {
-					loggedUser = (AppUser) session.getAttribute("subscriber");
-					subscriberCategory = loggedUser.getAppUserCategoryId();
-					
-					// if the subscriber is subscribed to all categories
-					if(subscriberCategory == null){
-						subscriberCategory = categoryDao.findById(1);
-					}
+				try
+				{
+					categoryId = Integer.parseInt(request.getParameter("id"));
+				}
+				catch(NumberFormatException e)
+				{
+					categoryId = 1;
 				}
 				
+				subscriberCategory = categoryDao.findById(categoryId);
+				AppUser subscriber = (AppUser) session.getAttribute("subscriber");
+				
 				request.setAttribute("subscriberCategory", subscriberCategory);
-				request.setAttribute("subscriberCategories", eBookDao.findBooksByCategoryNotDeleted(subscriberCategory));
+				request.setAttribute("subscriberCategories", categoryDao.findAllNotDeleted());
 				request.setAttribute("subscriberBooks", eBookDao.findBooksByCategoryNotDeleted(subscriberCategory));
+				request.setAttribute("subscribed", appUserDao.checkIfSubscribed(subscriber, subscriberCategory));
 				
 				getServletContext().getRequestDispatcher("/MenuSubscriber.jsp").forward(request, response);
 			}
