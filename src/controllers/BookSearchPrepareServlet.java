@@ -26,6 +26,8 @@ public class BookSearchPrepareServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		bookLanguage = new BookLanguageDAO();
+		
 		try {
 			List<BookLanguage> languages = bookLanguage.findAllNotDeleted();
 			request.setAttribute("languages", languages);

@@ -31,6 +31,10 @@ public class MenuVisitorServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int categoryId;
+		
+		categoryDao = new CategoryDAO();
+		booksDao = new EbookDAO();
+		
 		try
 		{
 			try

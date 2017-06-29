@@ -28,6 +28,8 @@ public class BookSearchServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		languageDao = new BookLanguageDAO();
+		
 		try {
 			String title = request.getParameter("title");
 			String author = request.getParameter("author");

@@ -38,6 +38,9 @@ public class CategoryDeleteServlet extends HttpServlet {
 			response.sendRedirect("/MenuVisitorServlet");
 		}
 		
+		categoryDao = new CategoryDAO();
+		fileDao = new FileDAO();
+		
 		try
 		{
 			Category selectedCategory = categoryDao.findById(Integer.parseInt(request.getParameter("id")));

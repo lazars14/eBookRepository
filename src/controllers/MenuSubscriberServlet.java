@@ -33,6 +33,9 @@ public class MenuSubscriberServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		int categoryId;
 		
+		categoryDao = new CategoryDAO();
+		eBookDao = new EbookDAO();
+		
 		try
 		{
 			if(session.getAttribute("subscriber") == null)

@@ -28,6 +28,8 @@ public class ChangePasswordServlet extends HttpServlet {
 		String newPassword = request.getParameter("newPassword");
 		AppUser loggedUser = null;
 		
+		appUserDao = new AppUserDAO();
+		
 		try
 		{
 			if(request.getSession().getAttribute("admin") != null)

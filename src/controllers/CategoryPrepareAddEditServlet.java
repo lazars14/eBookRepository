@@ -13,14 +13,14 @@ import org.apache.log4j.Logger;
 import dao.CategoryDAO;
 import entities.Category;
 
-public class CategoryPrepareAddEdit extends HttpServlet {
+public class CategoryPrepareAddEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	private static final Logger LOGGER = LogManager.getLogger(CategoryPrepareAddEdit.class);
+	private static final Logger LOGGER = LogManager.getLogger(CategoryPrepareAddEditServlet.class);
 	
 	private CategoryDAO categoryDao;
 	
-    public CategoryPrepareAddEdit() {
+    public CategoryPrepareAddEditServlet() {
         super();
     }
 
@@ -29,6 +29,8 @@ public class CategoryPrepareAddEdit extends HttpServlet {
 		{
 			response.sendRedirect("/MenuVisitorServlet");
 		}
+		
+		categoryDao = new CategoryDAO();
 		
 		try
 		{

@@ -35,6 +35,8 @@ public class CategoryEditServlet extends HttpServlet {
 			response.sendRedirect("/MenuVisitorServlet");
 		}
 		
+		categoryDao = new CategoryDAO();
+		
 		try
 		{
 			Boolean deleted = Boolean.parseBoolean(request.getParameter("deleted"));

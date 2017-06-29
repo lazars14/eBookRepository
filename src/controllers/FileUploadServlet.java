@@ -15,7 +15,7 @@ import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 @SuppressWarnings({"serial", "unchecked"})
-public class FileUploadServlet extends Mock {
+public class FileUploadServlet {
 	
 	public void init() throws ServletException {
 	}
@@ -24,6 +24,7 @@ public class FileUploadServlet extends Mock {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String storagePath = ResourceBundle.getBundle("app").getString("storage");
 		
+		/*
 		if(ServletFileUpload.isMultipartContent(request)){
 			DiskFileItemFactory factory = new DiskFileItemFactory();
 			factory.setSizeThreshold(1024);
@@ -65,7 +66,9 @@ public class FileUploadServlet extends Mock {
 			} catch (Exception e) {
 				response.sendRedirect("upload.jsp?error");
 			}
-		}
+			
+			
+		}*/
 	}
 
 }

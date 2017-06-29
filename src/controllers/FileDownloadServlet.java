@@ -11,9 +11,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-@SuppressWarnings("serial")
-public class FileDownloadServlet extends Mock {
+public class FileDownloadServlet {
 
 
   public void doGet(HttpServletRequest req, HttpServletResponse res) {

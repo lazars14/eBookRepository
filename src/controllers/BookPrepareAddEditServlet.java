@@ -29,6 +29,8 @@ public class BookPrepareAddEditServlet extends HttpServlet {
 			response.sendRedirect("/MenuVisitorServlet");
 		}
 		
+		eBookDao = new EbookDAO();
+		
 		try
 		{
 			String idStr = request.getParameter("id");

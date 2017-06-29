@@ -31,6 +31,8 @@ public class LoginServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		
+		appUserDao = new AppUserDAO();
+		
 		try
 		{
 			AppUser user = appUserDao.login(username, password);

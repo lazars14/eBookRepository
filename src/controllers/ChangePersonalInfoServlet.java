@@ -29,6 +29,8 @@ public class ChangePersonalInfoServlet extends HttpServlet {
     	String lastname = request.getParameter("lastname");
 		AppUser loggedUser = null;
 		
+		appUserDao = new AppUserDAO();
+		
 		try
 		{
 			if(request.getSession().getAttribute("admin") != null)

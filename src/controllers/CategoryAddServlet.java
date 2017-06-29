@@ -38,6 +38,9 @@ public class CategoryAddServlet extends HttpServlet {
 			response.sendRedirect("/MenuVisitorServlet");
 		}
 		
+		categoryDao = new CategoryDAO();
+		fileDao = new FileDAO();
+		
 		try
 		{	
 			Category newCategory = new Category();
