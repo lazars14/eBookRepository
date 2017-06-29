@@ -82,14 +82,14 @@ function delMovie(message){
 	<c:forEach items="${ adminBooks }" var="i">
 		<tr>
 			<td align="center"><c:out value="${rb3}"></c:out></td>
-			<td align="center">${ i.eBooktitle }</td>
-			<td align="center">${ i.eBookauthor }</td>
-			<td align="center">${ fn:substring(i.eBookkeywords, 0, 50).concat("...") }</td>
-			<td align="center">${ i.eBookpublicationyear }</td>
-			<td align="center">${ i.eBooklanguage }</td>
-			<td align="center"><a href="BookPrepareAddEditServlet?id=${ i.eBookId }"><fmt:message key="izmeni"/></a></td>
-			<td align="center"><a href="BookDeleteServlet?id=${i.eBookId}" onclick="return delMovie('<fmt:message key="daLiSteSigurniKnjiga"/>')"><fmt:message key="obrisi"/></a></td>
-			<td align="center"><a href="BookDownloadServlet?id=${i.eBookId}"><fmt:message key="preuzmi"/></a></td>
+			<td align="center">${ i.EBooktitle }</td>
+			<td align="center">${ i.EBookauthor }</td>
+			<td align="center">${ fn:substring(i.EBookkeywords, 0, 50).concat("...") }</td>
+			<td align="center">${ i.EBookpublicationyear }</td>
+			<td align="center">${ i.EBooklanguage.languageName }</td>
+			<td align="center"><a href="BookPrepareAddEditServlet?id=${ i.EBookid }"><fmt:message key="izmeni"/></a></td>
+			<td align="center"><a href="BookDeleteServlet?id=${i.EBookid}" onclick="return delMovie('<fmt:message key="daLiSteSigurniKnjiga"/>')"><fmt:message key="obrisi"/></a></td>
+			<td align="center"><a href="BookDownloadServlet?id=${i.EBookid}"><fmt:message key="preuzmi"/></a></td>
 		</tr>
 		<c:set var="rb3" scope="page" value="${rb3 + 1}"/>
 	</c:forEach>

@@ -50,11 +50,11 @@
 	<c:forEach items="${ userBooksForCategory }" var="i">
 		<tr>
 			<td align="center"><c:out value="${rb3}"></c:out></td>
-			<td align="center">${ i.eBooktitle }</td>
-			<td align="center">${ i.eBookauthor }</td>
-			<td align="center">${ fn:substring(i.eBookkeywords, 0, 50).concat("...") }</td>
-			<td align="center">${ i.eBookpublicationyear }</td>
-			<td align="center">${ i.eBooklanguage }</td>
+			<td align="center">${ i.EBooktitle }</td>
+			<td align="center">${ i.EBookauthor }</td>
+			<td align="center">${ fn:substring(i.EBookkeywords, 0, 50).concat("...") }</td>
+			<td align="center">${ i.EBookpublicationyear }</td>
+			<td align="center">${ i.EBooklanguage.languageName }</td>
 			<td align="center"><img src="images/download.png" onclick="openOverlay('banner')"></td>
 		</tr>
 		<c:set var="rb3" scope="page" value="${rb3 + 1}"/>
