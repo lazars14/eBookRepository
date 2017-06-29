@@ -53,7 +53,7 @@ public class CategoryAddServlet extends HttpServlet {
 			categoryDao.persist(newCategory);
 			LOGGER.info("A category with the name: " + newCategory.getCategoryName() + " has been added by " + loggedUser.getAppUserUsername());
 			
-			fileDao.createFolder(newCategory.getCategoryId());
+			// fileDao.createFolder(newCategory.getCategoryId());
 			
 			getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
 		}

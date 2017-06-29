@@ -31,6 +31,7 @@ public class CategoryPrepareAddEditServlet extends HttpServlet {
 		}
 		
 		categoryDao = new CategoryDAO();
+		String action = "";
 		
 		try
 		{
@@ -45,10 +46,11 @@ public class CategoryPrepareAddEditServlet extends HttpServlet {
 			}
 			catch (NumberFormatException e)
 			{
-				e.getStackTrace();
+				action = "add";
 			}
 			
 			request.setAttribute("categoryAddEdit", category);
+			request.setAttribute("action", action);
 			getServletContext().getRequestDispatcher("/CategoryAddEdit.jsp").forward(request, response);	
 		}
 		catch (ServletException e)

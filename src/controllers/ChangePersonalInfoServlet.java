@@ -38,18 +38,18 @@ public class ChangePersonalInfoServlet extends HttpServlet {
 				loggedUser = (AppUser) request.getSession().getAttribute("admin");
 				appUserDao.updateUserInfo(loggedUser, firstname, lastname);
 				LOGGER.info("Admin with username " + loggedUser.getAppUserUsername() + " changed his personal info");
-				response.sendRedirect("MenuAdmin.jsp");
+				response.sendRedirect("MenuAdminServlet");
 			}
 			else if(request.getSession().getAttribute("subscriber") != null)
 			{
 				loggedUser = (AppUser) request.getSession().getAttribute("subscriber");
 				appUserDao.updateUserInfo(loggedUser, firstname, lastname);
 				LOGGER.info("Subscriber with username " + loggedUser.getAppUserUsername() + " changed his personal info");
-				response.sendRedirect("MenuSubcriber.jsp");
+				response.sendRedirect("MenuSubcriberServlet");
 			}
 			else
 			{
-				response.sendRedirect("/MenuVisitorServlet");
+				response.sendRedirect("MenuVisitorServlet");
 			}
 		}
 		catch (IOException e)

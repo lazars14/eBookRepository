@@ -37,18 +37,18 @@ public class ChangePasswordServlet extends HttpServlet {
 				loggedUser = (AppUser) request.getSession().getAttribute("admin");
 				appUserDao.updateUserPassword(loggedUser, newPassword);
 				LOGGER.info("Admin with username " + loggedUser.getAppUserUsername() + " changed his password");
-				response.sendRedirect("MenuAdmin.jsp");
+				response.sendRedirect("MenuAdminServlet");
 			}
 			else if(request.getSession().getAttribute("subscriber") != null)
 			{
 				loggedUser = (AppUser) request.getSession().getAttribute("subscriber");
 				appUserDao.updateUserPassword(loggedUser, newPassword);
 				LOGGER.info("Subscriber with username " + loggedUser.getAppUserUsername() + " changed his password");
-				response.sendRedirect("MenuSubscriber.jsp");
+				response.sendRedirect("MenuSubscriberServlet");
 			}
 			else
 			{		
-				response.sendRedirect("/MenuVisitorServlet");
+				response.sendRedirect("MenuVisitorServlet");
 			}
 		}
 		catch (IOException e)

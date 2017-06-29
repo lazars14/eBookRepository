@@ -19,12 +19,14 @@ public class AppUserDAO extends GenericDAO<AppUser, Integer> {
 	}
 
 	public void updateUserPassword(AppUser loggedUser, String password) {
+		EntityManager em = GenericDAO.getEM();
 		loggedUser.setAppUserPassword(password);
 		em.merge(loggedUser);
 		em.close();
 	}
 
 	public void updateUserInfo(AppUser loggedUser, String firstname, String lastname) {
+		EntityManager em = GenericDAO.getEM();
 		loggedUser.setAppUserFirstname(firstname);
 		loggedUser.setAppUserLastname(lastname);
 		em.merge(loggedUser);
