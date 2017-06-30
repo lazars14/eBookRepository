@@ -35,7 +35,7 @@ public class CategoryDeleteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getSession().getAttribute("admin") == null)
 		{
-			response.sendRedirect("/MenuVisitorServlet");
+			response.sendRedirect("MenuVisitorServlet");
 		}
 		
 		categoryDao = new CategoryDAO();
@@ -50,7 +50,7 @@ public class CategoryDeleteServlet extends HttpServlet {
 			categoryDao.merge(selectedCategory);
 			LOGGER.info("Category " + selectedCategory.getCategoryName() + " has been deleted by " + admin.getAppUserUsername());
 			
-			// fileDao.createFolder(selectedCategory.getCategoryId());
+			fileDao.deleteFolder(selectedCategory.getCategoryId());
 			
 			getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
 		}

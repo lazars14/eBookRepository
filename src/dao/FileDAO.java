@@ -14,6 +14,7 @@ public class FileDAO {
 	public void createFolder(int categoryId){
 		StringBuilder sb = new StringBuilder();
 		sb.append(PATH);
+		sb.append("\\");
 		sb.append(String.valueOf(categoryId));
         
 		new File(sb.toString()).mkdirs();
@@ -24,6 +25,7 @@ public class FileDAO {
     public void deleteFolder(int categoryId){
     	StringBuilder sb = new StringBuilder();
 		sb.append(PATH);
+		sb.append("\\");
 		sb.append(String.valueOf(categoryId));
     	
     	File folder = new File(sb.toString());
@@ -32,7 +34,7 @@ public class FileDAO {
         }
     }
 	
-	public String buildFileNamePath(String fileName, int categoryId){
+	public String buildFileNamePath(String fileName, int categoryId){		
 		return PATH + "\\" + categoryId + "\\" + fileName + ".pdf";
 	}
 }

@@ -36,6 +36,10 @@ public class MenuSubscriberServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		int categoryId;
 		
+		if(session.getAttribute("subscriber") == null){
+			response.sendRedirect("MenuVisitorServlet");
+		}
+		
 		categoryDao = new CategoryDAO();
 		eBookDao = new EbookDAO();
 		appUserDao = new AppUserDAO();

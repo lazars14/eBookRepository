@@ -22,7 +22,7 @@ public class CategoryAddServlet extends HttpServlet {
 	
 	private CategoryDAO categoryDao;
 	
-	// private FileDAO fileDao;
+	private FileDAO fileDao;
 	
     public CategoryAddServlet() {
         super();
@@ -35,11 +35,11 @@ public class CategoryAddServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getSession().getAttribute("admin") == null)
 		{
-			response.sendRedirect("/MenuVisitorServlet");
+			response.sendRedirect("MenuVisitorServlet");
 		}
 		
 		categoryDao = new CategoryDAO();
-		// fileDao = new FileDAO();
+		fileDao = new FileDAO();
 		
 		try
 		{	
@@ -53,7 +53,7 @@ public class CategoryAddServlet extends HttpServlet {
 			categoryDao.persist(newCategory);
 			LOGGER.info("A category with the name: " + newCategory.getCategoryName() + " has been added by " + loggedUser.getAppUserUsername());
 			
-			// fileDao.createFolder(newCategory.getCategoryId());
+			fileDao.createFolder(newCategory.getCategoryId());
 			
 			getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
 		}

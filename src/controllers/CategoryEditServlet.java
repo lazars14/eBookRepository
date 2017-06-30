@@ -32,7 +32,7 @@ public class CategoryEditServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getSession().getAttribute("admin") == null)
 		{
-			response.sendRedirect("/MenuVisitorServlet");
+			response.sendRedirect("MenuVisitorServlet");
 		}
 		
 		categoryDao = new CategoryDAO();

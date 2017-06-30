@@ -30,7 +30,7 @@ public class BookPrepareAddEditServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getSession().getAttribute("admin") == null)
 		{
-			response.sendRedirect("/MenuVisitorServlet");
+			response.sendRedirect("MenuVisitorServlet");
 		}
 		
 		eBookDao = new EbookDAO();
