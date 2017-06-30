@@ -33,6 +33,6 @@ public class FileDAO {
     }
 	
 	public String buildFileNamePath(String fileName, int categoryId){
-		return PATH + "\\" + categoryId + "\\" + fileName;
+		return PATH + "\\" + categoryId + "\\" + fileName + ".pdf";
 	}
 }

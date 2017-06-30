@@ -34,21 +34,14 @@ public class BookDownloadServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*
-		if(request.getSession().getAttribute("admin") != null)
+		if(request.getSession().getAttribute("admin") == null && request.getSession().getAttribute("subscriber") == null)
 		{
-			loggedUser = (AppUser) request.getSession().getAttribute("admin");
+			response.sendRedirect("MenuVisitorServlet");
 		}
-		else if(request.getSession().getAttribute("subscriber") != null)
-		{
-			loggedUser = (AppUser) request.getSession().getAttribute("subscriber");
-		}
-		else
-		{
-			response.sendRedirect("/MenuVisitorServlet");
-		}
-		*/
 		 
+		ebookDao = new EbookDAO();
+		fileDao = new FileDAO();
+		
 		Ebook book = ebookDao.findById(Integer.parseInt(request.getParameter("id")));
 		BookFile bookFile = book.getEBookfileid();
 		
@@ -75,8 +68,6 @@ public class BookDownloadServlet extends HttpServlet {
 		}
 		
 		LOGGER.info("Successfully downloaded book with id " + book.getEBookid() + ".");
-		
-		getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

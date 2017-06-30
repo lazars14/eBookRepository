@@ -140,6 +140,16 @@
   </servlet-mapping>
   
   <servlet>
+    <servlet-name>BookDownloadServlet</servlet-name>
+    <servlet-class>controllers.BookDownloadServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BookDownloadServlet</servlet-name>
+    <url-pattern>/BookDownloadServlet</url-pattern>
+  </servlet-mapping>
+  
+  
+  <servlet>
     <servlet-name>FileDownloadServlet</servlet-name>
     <servlet-class>controllers.FileDownloadServlet</servlet-class>
   </servlet>
