@@ -9,7 +9,7 @@ public class FileDAO {
 	
 	private final static Logger LOGGER = LogManager.getLogger(FileDAO.class);
 	
-	private static final String PATH = "E:\\";
+	private static final String PATH = "E:\\eBooks";
 	
 	public void createFolder(int categoryId){
 		StringBuilder sb = new StringBuilder();
@@ -32,5 +32,7 @@ public class FileDAO {
         }
     }
 	
-	
+	public String buildFileNamePath(String fileName, int categoryId){
+		return PATH + "\\" + categoryId + "\\" + fileName;
+	}
 }

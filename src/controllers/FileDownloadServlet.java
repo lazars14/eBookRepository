@@ -20,7 +20,7 @@ public class FileDownloadServlet {
   
   
   private void handleDownload(HttpServletRequest req, HttpServletResponse res) {  	
-			String filename = req.getParameter("filename");
+	  		String filename = req.getParameter("filename");
 			
 			try {
 			if(filename != null) {

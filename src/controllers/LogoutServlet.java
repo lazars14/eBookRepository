@@ -11,6 +11,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import entities.AppUser;
+
 public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -22,13 +24,28 @@ public class LogoutServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			if(request.getSession().getAttribute("admin") == null && request.getSession().getAttribute("subscriber") == null)
+			AppUser loggedUser = new AppUser();
+			String role = "";
+			
+			if(request.getSession().getAttribute("admin") != null)
 			{
-				response.sendRedirect("MenuVisitorServlet");
+				loggedUser = (AppUser) request.getSession().getAttribute("admin");
+				role = "Admin ";
+			}
+			else if(request.getSession().getAttribute("subscriber") != null)
+			{
+				loggedUser = (AppUser) request.getSession().getAttribute("subscriber");
+				role = "Subscriber ";
+			}
+			else
+			{
+				response.sendRedirect("/MenuVisitorServlet");
 			}
 			
 			HttpSession session = request.getSession();
 			session.invalidate();
+			
+			LOGGER.info(role + loggedUser.getAppUserFirstname() + " " + loggedUser.getAppUserLastname() + " has just logged out");
 			
 			response.sendRedirect("Login.jsp");
 
