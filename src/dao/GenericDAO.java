@@ -62,25 +62,31 @@ public class GenericDAO<T, ID extends Serializable> {
 
 	public T persist(T entity) {
 		em = GenericDAO.getEM();
+		em.getTransaction().begin();
 		LOGGER.info("em.persist: " + entity);
 		em.persist(entity);
+		em.getTransaction().commit();
 		em.close();
 		return entity;
 	}
 
 	public T merge(T entity) {
 		em = GenericDAO.getEM();
+		em.getTransaction().begin();
 		LOGGER.info("em.merge: " + entity);
 		entity = em.merge(entity);
+		em.getTransaction().commit();
 		em.close();
 		return entity;
 	}
 
-	public void remove(T entity) {
+	public void remove(T entity) {		
 		em = GenericDAO.getEM();
+		em.getTransaction().begin();
 		LOGGER.info("em.remove: " + entity);
 		entity = em.merge(entity);
 		em.remove(entity);
+		em.getTransaction().commit();
 		em.close();
 	}
 
