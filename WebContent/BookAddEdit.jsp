@@ -41,7 +41,7 @@
 		</c:otherwise>
 	</c:choose>
 	
-	<form action="${ servlet }" method="post">
+	<form action="${ servlet }" method="post" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td><fmt:message key="naslov"/></td>

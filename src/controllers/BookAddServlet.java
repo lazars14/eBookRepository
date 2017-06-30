@@ -62,7 +62,6 @@ public class BookAddServlet extends HttpServlet {
 			newEbook.setEBookkeywords(request.getParameter("keywords"));
 			newEbook.setEBooklanguage(bookLanguageDao.findById(Integer.parseInt(request.getParameter("languageSelect"))));
 			newEbook.setEBookcategory(categoryDao.findById(Integer.parseInt(request.getParameter("categorySelect"))));
-			// set Ebook file with BookFile dao and new Ebook file
 			
 			eBookDao.persist(newEbook);
 			LOGGER.info("A book with the name: " + newEbook.getEBooktitle() + " has been added by " + loggedUser.getAppUserUsername());
