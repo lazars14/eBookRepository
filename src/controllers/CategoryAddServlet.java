@@ -22,7 +22,7 @@ public class CategoryAddServlet extends HttpServlet {
 	
 	private CategoryDAO categoryDao;
 	
-	private FileDAO fileDao;
+	// private FileDAO fileDao;
 	
     public CategoryAddServlet() {
         super();
@@ -39,7 +39,7 @@ public class CategoryAddServlet extends HttpServlet {
 		}
 		
 		categoryDao = new CategoryDAO();
-		fileDao = new FileDAO();
+		// fileDao = new FileDAO();
 		
 		try
 		{	

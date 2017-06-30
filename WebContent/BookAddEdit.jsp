@@ -2,6 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<%@ page import="entities.BookLanguage" %>
+<%@ page import="entities.Category" %>
+<%@ page import="java.util.List" %>
+
 <c:if test="${sessionScope.admin == null}">
 	<c:redirect url="MenuVisitorServlet"/>
 </c:if>
@@ -15,6 +19,8 @@
 <fmt:setBundle basename="messages.messages"/>
 
 <jsp:useBean id="eBookAddEdit" class="entities.Ebook" scope="request"/>
+<jsp:useBean id="languages" type="java.util.List" scope="request"/>
+<jsp:useBean id="categories" type="java.util.List" scope="request"/>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -39,31 +45,61 @@
 		<table>
 			<tr>
 				<td><fmt:message key="naslov"/></td>
-				<td><input type="text" maxlength="30" name="name" required="required" oninvalid="this.setCustomValidity('<fmt:message key="unesiteNazivKnjige"/>')" onchange="this.setCustomValidity('')" value="${eBookAddEdit.eBooktitle}"></td>
+				<td><input type="text" maxlength="30" name="tile" required="required" oninvalid="this.setCustomValidity('<fmt:message key="unesiteNazivKnjige"/>')" onchange="this.setCustomValidity('')" value="${eBookAddEdit.EBooktitle}"></td>
 			</tr>
 			<tr>
 				<td><fmt:message key="autor"/></td>
-				<td><input type="text" maxlength="30" name="name" required="required" oninvalid="this.setCustomValidity('<fmt:message key="unesiteNazivKnjige"/>')" onchange="this.setCustomValidity('')" value="${eBookAddEdit.eBooktitle}"></td>
+				<td><input type="text" maxlength="30" name="author" required="required" oninvalid="this.setCustomValidity('<fmt:message key="unesiteNazivKnjige"/>')" onchange="this.setCustomValidity('')" value="${eBookAddEdit.EBookauthor}"></td>
 			</tr>
 			<tr>
 				<td><fmt:message key="kljucneReci"/></td>
-				<td><input type="text" maxlength="30" name="name" required="required" oninvalid="this.setCustomValidity('<fmt:message key="unesiteNazivKnjige"/>')" onchange="this.setCustomValidity('')" value="${eBookAddEdit.eBooktitle}"></td>
+				<td><input type="text" maxlength="30" name="keywords" required="required" oninvalid="this.setCustomValidity('<fmt:message key="unesiteNazivKnjige"/>')" onchange="this.setCustomValidity('')" value="${eBookAddEdit.EBookkeywords}"></td>
 			</tr>
 			<tr>
 				<td><fmt:message key="godinaIzdavanja"/></td>
-				<td><input type="text" maxlength="30" name="name" required="required" oninvalid="this.setCustomValidity('<fmt:message key="unesiteNazivKnjige"/>')" onchange="this.setCustomValidity('')" value="${eBookAddEdit.eBooktitle}"></td>
+				<td><input type="text" maxlength="30" name="publicationYear" required="required" oninvalid="this.setCustomValidity('<fmt:message key="unesiteNazivKnjige"/>')" onchange="this.setCustomValidity('')" value="${eBookAddEdit.EBookpublicationyear}"></td>
 			</tr>
 			<tr>
 				<td><fmt:message key="jezik"/></td>
-				<td><input type="text" maxlength="30" name="name" required="required" oninvalid="this.setCustomValidity('<fmt:message key="unesiteNazivKnjige"/>')" onchange="this.setCustomValidity('')" value="${eBookAddEdit.eBooktitle}"></td>
+				<td>
+					<select name="languageSelect">
+						<c:forEach items="${ languages }" var="i">
+							<c:choose>
+								<c:when test="${ requestScope.action != 'add' && eBookAddEdit.EBooklanguage.languageId == i.languageId}">
+									<option value="${ i.languageId }" selected="selected">${ i.languageName }</option>
+								</c:when>
+								<c:otherwise>
+									<option value="${ i.languageId }">${ i.languageName }</option>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td><fmt:message key="fajl"/></td>
-				<td></td>
+				<td><input type="file" name="fileUpload" accept="application/pdf"/></td>
 			</tr>
-
 			<tr>
-				<td><input type="hidden" name="id" value="${eBookAddEdit.eBookcategory.categoryId}"></td>
+				<td><fmt:message key="kategorija"/></td>
+				<td>
+					<select name="categorySelect">
+						<c:forEach items="${ categories }" var="i">
+							<c:choose>
+								<c:when test="${ requestScope.action != 'add' && i.categoryId == eBookAddEdit.EBookcategory.categoryId }">
+									<option value="${i.categoryId}" selected="selected">${ i.categoryName }</option>
+								</c:when>
+								<c:otherwise>
+									<option value="${i.categoryId}">${ i.categoryName }</option>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</select>
+				</td>
+			</tr>
+			
+			<tr>
+				<td><input type="hidden" name="id" value="${eBookAddEdit.EBookid}"></td>
 				<td><input type="submit" name="submit" value="<fmt:message key="ok"/>"></td>				
 			</tr>
 		</table>

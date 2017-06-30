@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import dao.BookLanguageDAO;
+import dao.CategoryDAO;
 import dao.EbookDAO;
 import entities.Ebook;
 
@@ -17,7 +19,9 @@ public class BookPrepareAddEditServlet extends HttpServlet {
 	
 	private final Logger LOGGER = LogManager.getLogger(BookPrepareAddEditServlet.class);
 	
-	EbookDAO eBookDao;
+	private EbookDAO eBookDao;
+	private CategoryDAO categoryDao;
+	private BookLanguageDAO bookLanguageDao;
 	
 	public BookPrepareAddEditServlet() {
         super();
@@ -30,6 +34,8 @@ public class BookPrepareAddEditServlet extends HttpServlet {
 		}
 		
 		eBookDao = new EbookDAO();
+		categoryDao = new CategoryDAO();
+		bookLanguageDao = new BookLanguageDAO();
 		
 		try
 		{
@@ -48,6 +54,9 @@ public class BookPrepareAddEditServlet extends HttpServlet {
 			}
 			
 			request.setAttribute("eBookAddEdit", eBook);
+			request.setAttribute("languages", bookLanguageDao.findAllNotDeleted());
+			request.setAttribute("categories", categoryDao.findAllNotDeleted());
+			
 			getServletContext().getRequestDispatcher("/BookAddEdit.jsp").forward(request, response);	
 		}
 		catch (ServletException e)
