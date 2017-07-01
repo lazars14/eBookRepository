@@ -45,7 +45,7 @@
 		<table>
 			<tr>
 				<td><fmt:message key="naslov"/></td>
-				<td><input type="text" maxlength="30" name="tile" required="required" oninvalid="this.setCustomValidity('<fmt:message key="unesiteNazivKnjige"/>')" onchange="this.setCustomValidity('')" value="${eBookAddEdit.EBooktitle}"></td>
+				<td><input type="text" maxlength="30" name="title" required="required" oninvalid="this.setCustomValidity('<fmt:message key="unesiteNazivKnjige"/>')" onchange="this.setCustomValidity('')" value="${eBookAddEdit.EBooktitle}"></td>
 			</tr>
 			<tr>
 				<td><fmt:message key="autor"/></td>
@@ -57,7 +57,7 @@
 			</tr>
 			<tr>
 				<td><fmt:message key="godinaIzdavanja"/></td>
-				<td><input type="text" maxlength="30" name="publicationYear" required="required" oninvalid="this.setCustomValidity('<fmt:message key="unesiteNazivKnjige"/>')" onchange="this.setCustomValidity('')" value="${eBookAddEdit.EBookpublicationyear}"></td>
+				<td><input type="number" min="-1000" max="2500" name="publicationYear" required="required" oninvalid="this.setCustomValidity('<fmt:message key="unesiteNazivKnjige"/>')" onchange="this.setCustomValidity('')" value="${eBookAddEdit.EBookpublicationyear}"></td>
 			</tr>
 			<tr>
 				<td><fmt:message key="jezik"/></td>
@@ -76,10 +76,7 @@
 					</select>
 				</td>
 			</tr>
-			<tr>
-				<td><fmt:message key="fajl"/></td>
-				<td><input type="file" name="fileUpload" accept="application/pdf"/></td>
-			</tr>
+			
 			<tr>
 				<td><fmt:message key="kategorija"/></td>
 				<td>
@@ -96,6 +93,11 @@
 						</c:forEach>
 					</select>
 				</td>
+			</tr>
+			
+			<tr>
+				<td><fmt:message key="fajl"/></td>
+				<td><input type="file" name="fileUpload" accept="application/pdf"/></td>
 			</tr>
 			
 			<tr>

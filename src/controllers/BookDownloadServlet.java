@@ -17,7 +17,6 @@ import org.apache.log4j.Logger;
 
 import dao.EbookDAO;
 import dao.FileDAO;
-import entities.AppUser;
 import entities.BookFile;
 import entities.Ebook;
 

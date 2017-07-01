@@ -3,7 +3,6 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +21,7 @@ import dao.CategoryDAO;
 import dao.EbookDAO;
 import dao.FileDAO;
 import entities.AppUser;
+import entities.BookFile;
 import entities.Ebook;
 import helpers.Indexer;
 
@@ -47,7 +47,7 @@ public class BookAddServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getSession().getAttribute("admin") == null)
 		{
-			response.sendRedirect("/MenuVisitorServlet");
+			response.sendRedirect("MenuVisitorServlet");
 		}
 		
 		eBookDao = new EbookDAO();
@@ -57,22 +57,19 @@ public class BookAddServlet extends HttpServlet {
 		fileDao = new FileDAO();
 		
 		Ebook newEbook = new Ebook();
+		newEbook.setEBookdeleted(false);
+		
+		BookFile newBookFile = new BookFile();
 		
 		AppUser loggedUser = (AppUser) request.getSession().getAttribute("admin");
 		
+		String storagePath = "";
+		
 		try{
-			newEbook.setEBooktitle(request.getParameter("title"));
-			newEbook.setEBookauthor(request.getParameter("author"));
-			newEbook.setEBookpublicationyear(Integer.parseInt(request.getParameter("publicationYear")));
-			newEbook.setEBookdeleted(false);
-			newEbook.setEBookkeywords(request.getParameter("keywords"));
-			newEbook.setEBooklanguage(bookLanguageDao.findById(Integer.parseInt(request.getParameter("languageSelect"))));
-			newEbook.setEBookcategory(categoryDao.findById(Integer.parseInt(request.getParameter("categorySelect"))));
-			
 			// String storagePath = ResourceBundle.getBundle("app").getString("storage");
-			String storagePath = fileDao.buildFolderPath(newEbook.getEBookcategory().getCategoryId());
 			
 			if(ServletFileUpload.isMultipartContent(request)){
+				
 				DiskFileItemFactory factory = new DiskFileItemFactory();
 				factory.setSizeThreshold(1024);
 				ServletFileUpload upload = new ServletFileUpload(factory);
@@ -82,37 +79,73 @@ public class BookAddServlet extends HttpServlet {
 					FileItem fileItem = null;
 					File uploadedFile = null;
 					String fileName = "";
-					String extension = "";
 					boolean valid = false;
 					for(FileItem item : items){ //trebalo bi da ima samo 1
 						if(!item.isFormField()){
 							fileName = item.getName();
 							if(fileName.endsWith("pdf")){
-								extension = ".pdf";
+								LOGGER.info("Usao u pdf");
 								valid = true;
 							}
 							
 							if(valid){
-								
-								
-								fileName += extension;
 								uploadedFile = new File(storagePath, fileName);
 								fileItem = item;
+							}
+						}
+						else{
+							String fieldName = item.getFieldName();
+							
+							switch(fieldName){
+							
+							case "title":
+								newEbook.setEBooktitle(item.getString());
+								break;
+							case "author":
+								newEbook.setEBookauthor(item.getString());
+								break;
+							case "publicationYear":
+								newEbook.setEBookpublicationyear(Integer.parseInt(item.getString()));
+								break;
+							case "keywords":
+								newEbook.setEBookkeywords(item.getString());
+								break;
+							case "languageSelect":
+								newEbook.setEBooklanguage(bookLanguageDao.findById(Integer.parseInt(item.getString())));
+								break;
+							case "categorySelect":
+								newEbook.setEBookcategory(categoryDao.findById(Integer.parseInt(item.getString())));
+								storagePath = fileDao.buildFolderPath(newEbook.getEBookcategory().getCategoryId());
 								break;
 							}
 						}
 					}
+					
+					if(!valid){
+						LOGGER.info("The user didn't put any file!");
+						getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
+					}
+					
 					uploadedFile.createNewFile();
 					fileItem.write(uploadedFile);
 					Indexer.getInstance().index(uploadedFile);
-					response.sendRedirect("upload.jsp?success");
+					
+					newBookFile.setFileName(fileName.substring(0, fileName.length() - 4));
+					newBookFile.setFileMime("application/pdf");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				
 				
 			}
+			else {
+				LOGGER.info("Not multipart");
+				getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
+			}
 			
+			bookFileDao.persist(newBookFile);
+			
+			newEbook.setEBookfileid(newBookFile);
 			
 			eBookDao.persist(newEbook);
 			LOGGER.info("A book with the name: " + newEbook.getEBooktitle() + " has been added by " + loggedUser.getAppUserUsername());
@@ -120,7 +153,8 @@ public class BookAddServlet extends HttpServlet {
 			getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
 		} 
 		catch(NumberFormatException e) {
-			getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
+			LOGGER.error(e);
+			throw e;
 		}
 		catch (ServletException e)
 		{

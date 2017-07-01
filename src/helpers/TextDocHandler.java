@@ -50,7 +50,9 @@ public class TextDocHandler extends DocumentHandler {
 				fullText += " " + secondLine;
 			}
 			doc.add(new TextField("text", fullText, Store.NO));
-
+			
+			reader.close();
+			
 			return doc;
 		} catch (FileNotFoundException e) {
 			throw new IllegalArgumentException("Datoteka ne postoji");
@@ -74,6 +76,9 @@ public class TextDocHandler extends DocumentHandler {
 				}
 				fullText += " " + secondLine;
 			}
+			
+			reader.close();
+			
 			return fullText;
 		} catch (FileNotFoundException e) {
 			throw new IllegalArgumentException("Datoteka ne postoji");
