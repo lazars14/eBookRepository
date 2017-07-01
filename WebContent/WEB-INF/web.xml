@@ -149,15 +149,6 @@
   </servlet-mapping>
   
   <servlet>
-    <servlet-name>FileUploadServlet</servlet-name>
-    <servlet-class>controllers.FileUploadServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>FileUploadServlet</servlet-name>
-    <url-pattern>/FileUploadServlet</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
     <servlet-name>CategoryAddServlet</servlet-name>
     <servlet-class>controllers.CategoryAddServlet</servlet-class>
   </servlet>
