@@ -148,15 +148,6 @@
     <url-pattern>/BookDownloadServlet</url-pattern>
   </servlet-mapping>
   
-  
-  <servlet>
-    <servlet-name>FileDownloadServlet</servlet-name>
-    <servlet-class>controllers.FileDownloadServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>FileDownloadServlet</servlet-name>
-    <url-pattern>/FileDownloadServlet</url-pattern>
-  </servlet-mapping>
   <servlet>
     <servlet-name>FileUploadServlet</servlet-name>
     <servlet-class>controllers.FileUploadServlet</servlet-class>

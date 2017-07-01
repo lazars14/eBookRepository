@@ -22,7 +22,7 @@
     	<table id="loginTable">
         	<tr>
 				<td><fmt:message key="korisnickoIme"/>:</td>
-                <td><input type="text" maxlength="10" name="username" required="required" oninvalid="this.setCustomValidity('<fmt:message key="unesiteKorisnickoIme"/>')" onchange="this.setCustomValidity('')"></td>
+                <td><input type="text" maxlength="10" name="username" required="required" oninvalid="this.setCustomValidity('<fmt:message key="unesiteKorisnickoIme"/>')" onchange="this.setCustomValidity('')" autofocus></td>
             </tr>
             <tr>
             	<td><fmt:message key="lozinka"/>:</td>
