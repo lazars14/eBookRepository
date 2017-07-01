@@ -15,7 +15,10 @@
     </c:otherwise>
 </c:choose>
 
-<jsp:useBean id="languages" type="java.util.List" scope="page"/>
+<jsp:useBean id="languages" type="java.util.List" scope="request"/>
+<jsp:useBean id="categories" type="java.util.List" scope="request"/>
+<jsp:useBean id="user" type="java.lang.String" scope="request"/>
+<jsp:useBean id="userCategory" type="java.lang.Integer" scope="request"/>
 
 <c:set var="language" value="${sessionScope.language}"/>
 <c:if test="${language==null}">
@@ -40,18 +43,22 @@
 	<tr>
 		<td><fmt:message key="pretragaPoNaslovu"/></td>
 		<td><input type="text" name="title" maxLength="80"/></td>
+		<td><input type="checkbox" name="title_checkbox"/></td>
 	</tr>
 	<tr>
 		<td><fmt:message key="pretragaPoAutoru"/></td>
 		<td><input type="text" name="author" maxLength="120"/></td>
+		<td><input type="checkbox" name="author_checkbox"/></td>
 	</tr>
 	<tr>
 		<td><fmt:message key="pretragaPoKljucnimRecima"/></td>
 		<td><input type="text" name="keyword" maxLength="120"/></td>
+		<td><input type="checkbox" name="keyword_checkbox"/></td>
 	</tr>
 	<tr>
 		<td><fmt:message key="pretragaPoSadrzaju"/></td>
 		<td><input type="text" name="content" maxLength="100"/></td>
+		<td><input type="checkbox" name="content_checkbox"/></td>
 	</tr>
 	<tr>
 		<td><fmt:message key="pretragaPoJeziku"/></td>
@@ -62,11 +69,27 @@
     			</c:forEach>
 			</select>
 		</td>
+		<td><input type="checkbox" name="language_checkbox"/></td>
 	</tr>
-	
-	</br>
-	
-	<!-- 
+	<tr>
+		<td><fmt:message key="pretragaPoKategoriji"/></td>
+		<td>
+			<select name="categorySelect">
+    			<c:forEach var="i" items="${ categories }">
+     				<option value="${ i.categoryId }">${ i.categoryName }</option>
+    			</c:forEach>
+			</select>
+		</td>
+		<td><input type="checkbox" name="category_checkbox"/></td>
+	</tr>
+</table>
+
+<button type="submit"><fmt:message key="pretrazi"/></button>
+
+</form>
+
+</br>
+<!-- 
 	
 	<ovde mora ajax poziv za rezultate, ne mere drugacije
 	
@@ -76,12 +99,6 @@
 	
 	
 	 -->
-	
-	<button type="submit"><fmt:message key="pretrazi"/></button>
-	
-</table>
-</form>
-
 
 
 <a href="${ location }"><fmt:message key="glavniMeni"/></a>

@@ -1,36 +1,55 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import entities.BookLanguage;
 import dao.BookLanguageDAO;
+import dao.CategoryDAO;
+import entities.AppUser;
 
 public class BookSearchPrepareServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
      
 	private final Logger LOGGER = LogManager.getLogger(BookSearchPrepareServlet.class);
 	
-	private BookLanguageDAO bookLanguage;
+	private BookLanguageDAO bookLanguageDao;
+	private CategoryDAO categoryDao;
 	
     public BookSearchPrepareServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		bookLanguage = new BookLanguageDAO();
+		bookLanguageDao = new BookLanguageDAO();
+		categoryDao = new CategoryDAO();
+		HttpSession session = request.getSession();
+		
+		String user = "";
+		int userCategory = 0;
 		
 		try {
-			List<BookLanguage> languages = bookLanguage.findAllNotDeleted();
-			request.setAttribute("languages", languages);
+			if(session.getAttribute("admin") != null){
+				user = "admin";
+			} else if(session.getAttribute("subscriber") != null){
+				user = "subscriber";
+				AppUser subscriber = (AppUser) session.getAttribute("subscriber");
+				userCategory = subscriber.getAppUserCategoryId().getCategoryId();
+			} else{
+				user = "visitor";
+			}
+			
+			request.setAttribute("user", user);
+			request.setAttribute("userCategory", userCategory);
+			request.setAttribute("languages", bookLanguageDao.findAllNotDeleted());
+			request.setAttribute("categories", categoryDao.findAllNotDeleted());
 			
 			getServletContext().getRequestDispatcher("/BookSearch.jsp").forward(request, response);
 		}
