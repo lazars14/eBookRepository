@@ -9,10 +9,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.apache.tomcat.util.http.fileupload.RequestContext;
-import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import dao.BookFileDAO;
+import dao.FileDAO;
+import helpers.Indexer;
 
 @SuppressWarnings({"serial", "unchecked"})
 public class FileUploadServlet {
@@ -22,37 +27,38 @@ public class FileUploadServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if(request.getSession().getAttribute("admin") == null)
+		{
+			response.sendRedirect("/MenuVisitorServlet");
+		}
+		
 		String storagePath = ResourceBundle.getBundle("app").getString("storage");
 		
-		/*
 		if(ServletFileUpload.isMultipartContent(request)){
 			DiskFileItemFactory factory = new DiskFileItemFactory();
 			factory.setSizeThreshold(1024);
 			ServletFileUpload upload = new ServletFileUpload(factory);
 			try {
-				List<FileItem> items = upload.parseRequest();
+				List<FileItem> items = upload.parseRequest(request);
 				FileItem fileItem = null;
 				File uploadedFile = null;
 				String fileName = "";
 				String extension = "";
+				boolean valid = false;
 				for(FileItem item : items){ //trebalo bi da ima samo 1
 					if(!item.isFormField()){
 						fileName = item.getName();
 						if(fileName.endsWith("pdf")){
 							extension = ".pdf";
-						}else if(fileName.endsWith("doc")){
-							extension = ".doc";
-						}else if(fileName.endsWith("docx")){
-							extension = ".docx";
-						}else if(fileName.endsWith("txt")){
-							extension = ".txt";
-						}else{
-							return;
+							valid = true;
 						}
-						fileName = System.currentTimeMillis() + extension;
-						uploadedFile = new File(storagePath, fileName);
-						fileItem = item;
-						break;
+						
+						if(valid){
+							fileName = System.currentTimeMillis() + extension;
+							uploadedFile = new File(storagePath, fileName);
+							fileItem = item;
+							break;
+						}
 					}
 				}
 				while (uploadedFile.exists()) {
@@ -64,11 +70,11 @@ public class FileUploadServlet {
 				Indexer.getInstance().index(uploadedFile);
 				response.sendRedirect("upload.jsp?success");
 			} catch (Exception e) {
-				response.sendRedirect("upload.jsp?error");
+				e.printStackTrace();
 			}
 			
 			
-		}*/
+		}
 	}
 
 }

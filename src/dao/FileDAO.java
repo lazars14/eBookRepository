@@ -10,6 +10,8 @@ public class FileDAO {
 	private final static Logger LOGGER = LogManager.getLogger(FileDAO.class);
 	
 	private static final String PATH = "E:\\eBooks";
+	private static final String PDF_EXTENSION = ".pdf";
+	private static final String DELIMITER = "\\";
 	
 	public void createFolder(int categoryId){
 		StringBuilder sb = new StringBuilder();
@@ -25,7 +27,7 @@ public class FileDAO {
     public void deleteFolder(int categoryId){
     	StringBuilder sb = new StringBuilder();
 		sb.append(PATH);
-		sb.append("\\");
+		sb.append(DELIMITER);
 		sb.append(String.valueOf(categoryId));
     	
     	File folder = new File(sb.toString());
@@ -35,6 +37,22 @@ public class FileDAO {
     }
 	
 	public String buildFileNamePath(String fileName, int categoryId){		
-		return PATH + "\\" + categoryId + "\\" + fileName + ".pdf";
+		return PATH + DELIMITER + categoryId + DELIMITER + fileName + PDF_EXTENSION;
+	}
+
+	public void deleteFile(String fileName, int categoryId) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(PATH);
+		sb.append(DELIMITER);
+		sb.append(String.valueOf(categoryId));
+		sb.append(DELIMITER);
+    	sb.append(fileName);
+		sb.append(PDF_EXTENSION);
+    	
+    	File file = new File(sb.toString());
+        if(file.delete()){
+        	LOGGER.info("Deleted file with name " + fileName);
+        }
+		
 	}
 }
