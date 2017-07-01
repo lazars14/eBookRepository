@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import dao.BookFileDAO;
 import dao.EbookDAO;
 import dao.FileDAO;
 import entities.AppUser;
@@ -22,7 +21,6 @@ public class BookDeleteServlet extends HttpServlet {
 	
 	private EbookDAO eBookDao;
 	private FileDAO fileDao;
-	private BookFileDAO bookFileDao;
 	
     public BookDeleteServlet() {
         super();
@@ -36,7 +34,6 @@ public class BookDeleteServlet extends HttpServlet {
 		
 		eBookDao = new EbookDAO();
 		fileDao = new FileDAO();
-		bookFileDao = new BookFileDAO();
 		
 		try
 		{
@@ -46,7 +43,6 @@ public class BookDeleteServlet extends HttpServlet {
 			selectedEbook.setEBookdeleted(true);
 			fileDao.deleteFile(selectedEbook.getEBookfileid().getFileName(), selectedEbook.getEBookcategory().getCategoryId());
 			eBookDao.merge(selectedEbook);
-			bookFileDao.remove(selectedEbook.getEBookfileid());
 			
 			LOGGER.info("Ebook " + selectedEbook.getEBooktitle() + " has been deleted by " + admin.getAppUserUsername());
 			

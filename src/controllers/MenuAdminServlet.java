@@ -61,7 +61,7 @@ public class MenuAdminServlet extends HttpServlet {
 				
 				request.setAttribute("adminCategory", c);
 				request.setAttribute("adminCategories", categoryDao.findAll());				
-				request.setAttribute("adminBooks", eBookDao.findBooksByCategory(c));
+				request.setAttribute("adminBooks", eBookDao.findBooksByCategoryNotDeleted(c));
 				
 				getServletContext().getRequestDispatcher("/MenuAdmin.jsp").forward(request, response);
 			}

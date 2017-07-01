@@ -69,7 +69,8 @@ public class BookAddServlet extends HttpServlet {
 			newEbook.setEBooklanguage(bookLanguageDao.findById(Integer.parseInt(request.getParameter("languageSelect"))));
 			newEbook.setEBookcategory(categoryDao.findById(Integer.parseInt(request.getParameter("categorySelect"))));
 			
-			String storagePath = ResourceBundle.getBundle("app").getString("storage");
+			// String storagePath = ResourceBundle.getBundle("app").getString("storage");
+			String storagePath = fileDao.buildFolderPath(newEbook.getEBookcategory().getCategoryId());
 			
 			if(ServletFileUpload.isMultipartContent(request)){
 				DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -92,7 +93,9 @@ public class BookAddServlet extends HttpServlet {
 							}
 							
 							if(valid){
-								fileName = System.currentTimeMillis() + extension;
+								
+								
+								fileName += extension;
 								uploadedFile = new File(storagePath, fileName);
 								fileItem = item;
 								break;

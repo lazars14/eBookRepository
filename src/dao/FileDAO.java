@@ -55,4 +55,8 @@ public class FileDAO {
         }
 		
 	}
+
+	public String buildFolderPath(Integer categoryId) {
+		return PATH + DELIMITER + categoryId;
+	}
 }
