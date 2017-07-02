@@ -35,6 +35,7 @@ public class BookSearchServlet extends HttpServlet {
 			String author = request.getParameter("author");
 			String keyword = request.getParameter("keyword");
 			String content = request.getParameter("content");
+			
 			BookLanguage language = languageDao.findById(Integer.parseInt(request.getParameter("languageSelect")));
 			
 			// ovo ne bi trebalo ovako, trebalo bi preko ajax-a!!!

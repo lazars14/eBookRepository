@@ -16,7 +16,6 @@
 </c:choose>
 
 <jsp:useBean id="languages" type="java.util.List" scope="request"/>
-<jsp:useBean id="categories" type="java.util.List" scope="request"/>
 <jsp:useBean id="user" type="java.lang.String" scope="request"/>
 <jsp:useBean id="userCategory" type="java.lang.Integer" scope="request"/>
 
@@ -70,17 +69,6 @@
 			</select>
 		</td>
 		<td><input type="checkbox" name="language_checkbox"/></td>
-	</tr>
-	<tr>
-		<td><fmt:message key="pretragaPoKategoriji"/></td>
-		<td>
-			<select name="categorySelect">
-    			<c:forEach var="i" items="${ categories }">
-     				<option value="${ i.categoryId }">${ i.categoryName }</option>
-    			</c:forEach>
-			</select>
-		</td>
-		<td><input type="checkbox" name="category_checkbox"/></td>
 	</tr>
 </table>
 

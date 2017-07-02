@@ -1,6 +1,10 @@
 package controllers;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,10 +14,12 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.lucene.search.BooleanClause.Occur;
 
 import dao.BookLanguageDAO;
-import dao.CategoryDAO;
 import entities.AppUser;
+import helpers.Indexer;
+import helpers.SearchType;
 
 public class BookSearchPrepareServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -21,15 +27,14 @@ public class BookSearchPrepareServlet extends HttpServlet {
 	private final Logger LOGGER = LogManager.getLogger(BookSearchPrepareServlet.class);
 	
 	private BookLanguageDAO bookLanguageDao;
-	private CategoryDAO categoryDao;
 	
     public BookSearchPrepareServlet() {
         super();
+        Indexer.getInstance().index(new File(ResourceBundle.getBundle("app").getString("storage")));
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		bookLanguageDao = new BookLanguageDAO();
-		categoryDao = new CategoryDAO();
 		HttpSession session = request.getSession();
 		
 		String user = "";
@@ -41,15 +46,23 @@ public class BookSearchPrepareServlet extends HttpServlet {
 			} else if(session.getAttribute("subscriber") != null){
 				user = "subscriber";
 				AppUser subscriber = (AppUser) session.getAttribute("subscriber");
-				userCategory = subscriber.getAppUserCategoryId().getCategoryId();
+				if(subscriber.getAppUserCategoryId() != null){
+					userCategory = subscriber.getAppUserCategoryId().getCategoryId();
+				}
 			} else{
 				user = "visitor";
 			}
 			
+			List<String> occures = new ArrayList<String>();
+			for(Occur o : Occur.values()){
+				occures.add(o.toString());
+			}
+			
+			request.setAttribute("occures", occures);
+			request.setAttribute("searchTypes", SearchType.getMessages());
 			request.setAttribute("user", user);
 			request.setAttribute("userCategory", userCategory);
 			request.setAttribute("languages", bookLanguageDao.findAllNotDeleted());
-			request.setAttribute("categories", categoryDao.findAllNotDeleted());
 			
 			getServletContext().getRequestDispatcher("/BookSearch.jsp").forward(request, response);
 		}
