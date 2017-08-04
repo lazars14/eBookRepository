@@ -119,7 +119,6 @@ public class Indexer {
 		} catch (IOException e) {
 			return false;
 		}
-		
 	}
 	
 	public boolean updateDocument(String filename, List<IndexableField> fields){		

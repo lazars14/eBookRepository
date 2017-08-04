@@ -36,10 +36,6 @@ public class FileDAO {
         	LOGGER.info("Deleted folder with category id " + categoryId);
         }
     }
-	
-	public String buildFileNamePath(String fileName, int categoryId){		
-		return PATH + DELIMITER + categoryId + DELIMITER + fileName + PDF_EXTENSION;
-	}
 
 	public void deleteFile(String fileName, int categoryId) {
 		StringBuilder sb = new StringBuilder();
@@ -55,6 +51,10 @@ public class FileDAO {
         	LOGGER.info("Deleted file with name " + fileName);
         }
 		
+	}
+	
+	public String buildFileNamePath(String fileName, int categoryId){		
+		return PATH + DELIMITER + categoryId + DELIMITER + fileName + PDF_EXTENSION;
 	}
 
 	public String buildFolderPath(Integer categoryId) {
