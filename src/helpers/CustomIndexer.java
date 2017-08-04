@@ -10,7 +10,6 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.IndexWriter;
 
 import dao.BookFileDAO;
 import dao.CategoryDAO;
@@ -40,6 +39,8 @@ public class CustomIndexer {
 				indexBook(book);
 			}
 		}
+		
+		LOGGER.info("Successfully indexed books");
 	}
 	
 	public void indexBook(Ebook book){
@@ -47,32 +48,28 @@ public class CustomIndexer {
 		Document doc = new Document();
 		
 		String[] keywords = getKeywords(book.getEBookkeywords());
-		if(keywords.length > 0){
-			for(String s : keywords){
-				doc.add(new TextField("keyword", s, Store.YES));
-			}
-			
-			BookFile bookFile = bookFileDao.findById(book.getEBookid());
-			String bookText = pdfHandler.getText(new File(fileDao.buildFileNamePath(bookFile.getFileName(), book.getEBookcategory().getCategoryId())));
-			
-			doc.add(new TextField("title", book.getEBooktitle(), Store.YES));
-			doc.add(new TextField("author", book.getEBookauthor(), Store.YES));
-			doc.add(new TextField("content", bookText, Store.YES));
-			doc.add(new IntField("language", book.getEBooklanguage().getLanguageId(), Store.YES));
-			
-			indexer.add(doc);
-		} else {
-			
+		for(String s : keywords){
+			doc.add(new TextField("keyword", s, Store.YES));
 		}
+		
+		BookFile bookFile = bookFileDao.findById(book.getEBookid());
+		String bookText = pdfHandler.getText(new File(fileDao.buildFileNamePath(bookFile.getFileName(), book.getEBookcategory().getCategoryId())));
+		
+		doc.add(new TextField("title", book.getEBooktitle(), Store.YES));
+		doc.add(new TextField("author", book.getEBookauthor(), Store.YES));
+		doc.add(new TextField("content", bookText, Store.YES));
+		doc.add(new IntField("language", book.getEBooklanguage().getLanguageId(), Store.YES));
+		
+		indexer.add(doc);
 	}
 	
 	public String[] getKeywords(String keywordsString){
 		String[] keywordsList = null;
 		
 		try {
-			keywordsList = keywordsString.split(",");
+			keywordsList = keywordsString.split("\\|");
 		} catch(Exception e){
-			
+			LOGGER.error("Cannot split keywords, bad input!");
 		}
 		
 		return keywordsList;
