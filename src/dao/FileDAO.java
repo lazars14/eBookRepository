@@ -53,7 +53,8 @@ public class FileDAO {
 		
 	}
 	
-	public String buildFileNamePath(String fileName, int categoryId){		
+	public String buildFileNamePath(String fileName, int categoryId){
+		System.out.println(PATH + DELIMITER + categoryId + DELIMITER + fileName + PDF_EXTENSION);
 		return PATH + DELIMITER + categoryId + DELIMITER + fileName + PDF_EXTENSION;
 	}
 

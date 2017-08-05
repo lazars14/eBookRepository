@@ -3,6 +3,7 @@ package controllers;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -48,20 +49,24 @@ public class BookDownloadServlet extends HttpServlet {
 		LOGGER.info(filename + " ovo je filename");
 		
 		try {
-		if(filename != null) {
-			InputStream stream = new BufferedInputStream(new FileInputStream(new File(filename)));
-			ServletOutputStream out;
-			out = response.getOutputStream();
-			byte[] bbuf = new byte[100];
-			int length = 0;
-			while ((stream != null) && ((length = stream.read(bbuf)) != -1))
-			   {
-			       out.write(bbuf,0,length);
-			   }
-			out.close();
-			stream.close();
+			if(filename != null) {
+				InputStream stream = new BufferedInputStream(new FileInputStream(new File(filename)));
+				ServletOutputStream out;
+				out = response.getOutputStream();
+				byte[] bbuf = new byte[100];
+				int length = 0;
+				while ((stream != null) && ((length = stream.read(bbuf)) != -1))
+				   {
+				       out.write(bbuf,0,length);
+				   }
+				out.close();
+				stream.close();
+			}
+		} catch (FileNotFoundException a){
+			LOGGER.error("Book with id " + book.getEBookid() + " not found.");
+			getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
 		}
-		} catch (Exception e) {
+		catch (Exception e) {
 			LOGGER.error("Error on downloading book with id " + book.getEBookid() + ".");
 			e.printStackTrace();
 		}
