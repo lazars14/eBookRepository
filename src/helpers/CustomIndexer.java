@@ -52,11 +52,20 @@ public class CustomIndexer {
 			doc.add(new TextField("keyword", s, Store.YES));
 		}
 		
+		boolean singleAuthor = false;
+		String[] authors = getAuthors(book.getEBookauthor(), singleAuthor);
+		if(singleAuthor){
+			doc.add(new TextField("author", book.getEBookauthor(), Store.YES));
+		} else {
+			for(String a : authors){
+				doc.add(new TextField("author", a, Store.YES));
+			}
+		}
+		
 		BookFile bookFile = bookFileDao.findById(book.getEBookid());
 		String bookText = pdfHandler.getText(new File(fileDao.buildFileNamePath(bookFile.getFileName(), book.getEBookcategory().getCategoryId())));
 		
 		doc.add(new TextField("title", book.getEBooktitle(), Store.YES));
-		doc.add(new TextField("author", book.getEBookauthor(), Store.YES));
 		doc.add(new TextField("content", bookText, Store.YES));
 		doc.add(new IntField("language", book.getEBooklanguage().getLanguageId(), Store.YES));
 		
@@ -73,5 +82,18 @@ public class CustomIndexer {
 		}
 		
 		return keywordsList;
+	}
+	
+	public String[] getAuthors(String authorsString, boolean singleAuthor){
+		String[] authorsList = null;
+		
+		try {
+			authorsList = authorsString.split("\\|");
+		} catch(Exception e){
+			// single author
+			singleAuthor = true;
+		}
+		
+		return authorsList;
 	}
 }

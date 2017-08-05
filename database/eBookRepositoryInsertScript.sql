@@ -49,7 +49,7 @@ Insert Into App_User(app_user_firstname, app_user_lastname, app_user_username, a
 
 # Biography
 Insert Into eBook(eBook_title, eBook_author, eBook_keywords, eBook_publication_year, eBook_language, eBook_category, eBook_file_id, eBook_deleted) Values ('ABRAHAM LINCOLN', 'JAMES RUSSELL LOWELL', 'biography|president|justice|assasination', 1865, 1, 1, 1, 0);
-Insert Into eBook(eBook_title, eBook_author, eBook_keywords, eBook_publication_year, eBook_language, eBook_category, eBook_file_id, eBook_deleted) Values ('The Miracle Boy', 'Olatunji Joan Olufolake, Olatunji Ayodele Oluwaseyi', 'biography|miracle|africa|nigeria|war', 2013, 1, 1, 2, 0);
+Insert Into eBook(eBook_title, eBook_author, eBook_keywords, eBook_publication_year, eBook_language, eBook_category, eBook_file_id, eBook_deleted) Values ('The Miracle Boy', 'Olatunji Joan Olufolake|Olatunji Ayodele Oluwaseyi', 'biography|miracle|africa|nigeria|war', 2013, 1, 1, 2, 0);
 Insert Into eBook(eBook_title, eBook_author, eBook_keywords, eBook_publication_year, eBook_language, eBook_category, eBook_file_id, eBook_deleted) Values ('The Autobiography of Charles Darwin', 'Charles Darwin', 'biography|science|biology', 1887, 1, 1, 3, 0);
 
 # Business
@@ -58,7 +58,7 @@ Insert Into eBook(eBook_title, eBook_author, eBook_keywords, eBook_publication_y
 Insert Into eBook(eBook_title, eBook_author, eBook_keywords, eBook_publication_year, eBook_language, eBook_category, eBook_file_id, eBook_deleted) Values ('The Lumberjack Chronicles', 'DAN NORMAN', 'business|money|finance|chronicle', 2007, 1, 2, 6, 0);
 
 Insert Into eBook(eBook_title, eBook_author, eBook_keywords, eBook_publication_year, eBook_language, eBook_category, eBook_file_id, eBook_deleted) Values ('Bedtime and other tales of terror', 'Michael Whitehouse', 'horror|bed|terror|darkness', 2013, 1, 3, 7, 0);
-Insert Into eBook(eBook_title, eBook_author, eBook_keywords, eBook_publication_year, eBook_language, eBook_category, eBook_file_id, eBook_deleted) Values ('Dracula', 'Bram Stoker', 'horror|romania|vampire|fangs|blood|castle', 1897, 1, 3, 8, 0);
+Insert Into eBook(eBook_title, eBook_author, eBook_keywords, eBook_publication_year, eBook_language, eBook_category, eBook_file_id, eBook_deleted) Values ('Dracula', 'Bram Stoker|Heidi Klum', 'horror|romania|vampire|fangs|blood|castle', 1897, 1, 3, 8, 0);
 Insert Into eBook(eBook_title, eBook_author, eBook_keywords, eBook_publication_year, eBook_language, eBook_category, eBook_file_id, eBook_deleted) Values ('The Deadly Onez', 'Ziad Antar', 'horror|walking dead|zombie|terror|cemetery', 2012, 1, 3, 9, 0);
 
 Insert Into eBook(eBook_title, eBook_author, eBook_keywords, eBook_publication_year, eBook_language, eBook_category, eBook_file_id, eBook_deleted) Values ('The Adventures Of Sherlock Holmes', 'Arthur Conan Doyle', 'mistery|crime|england|detective', 2012, 1, 4, 10, 0);
