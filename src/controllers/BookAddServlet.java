@@ -23,6 +23,7 @@ import dao.FileDAO;
 import entities.AppUser;
 import entities.BookFile;
 import entities.Ebook;
+import helpers.CustomIndexer;
 import helpers.Indexer;
 
 public class BookAddServlet extends HttpServlet {
@@ -35,6 +36,7 @@ public class BookAddServlet extends HttpServlet {
 	private CategoryDAO categoryDao;
 	private BookLanguageDAO bookLanguageDao;
 	private FileDAO fileDao;
+	private CustomIndexer customIndexer;
 	
     public BookAddServlet() {
         super();
@@ -55,6 +57,7 @@ public class BookAddServlet extends HttpServlet {
 		categoryDao = new CategoryDAO();
 		bookLanguageDao = new BookLanguageDAO();
 		fileDao = new FileDAO();
+		customIndexer = new CustomIndexer();
 		
 		Ebook newEbook = new Ebook();
 		newEbook.setEBookdeleted(false);
@@ -128,7 +131,7 @@ public class BookAddServlet extends HttpServlet {
 					
 					uploadedFile.createNewFile();
 					fileItem.write(uploadedFile);
-					Indexer.getInstance().index(uploadedFile);
+					//Indexer.getInstance().index(uploadedFile);
 					
 					newBookFile.setFileName(fileName.substring(0, fileName.length() - 4));
 					newBookFile.setFileMime("application/pdf");
@@ -148,6 +151,9 @@ public class BookAddServlet extends HttpServlet {
 			newEbook.setEBookfileid(newBookFile);
 			
 			eBookDao.persist(newEbook);
+			
+			customIndexer.indexBook(newEbook);
+			
 			LOGGER.info("A book with the name: " + newEbook.getEBooktitle() + " has been added by " + loggedUser.getAppUserUsername());
 			
 			getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
