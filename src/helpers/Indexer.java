@@ -36,7 +36,7 @@ public class Indexer {
 	private IndexWriter indexWriter;
 	private Directory indexDir;
 	
-	private static Indexer indexer = new Indexer(true);
+	private static Indexer indexer = new Indexer(false);
 	
 	public static Indexer getInstance(){
 		return indexer;
