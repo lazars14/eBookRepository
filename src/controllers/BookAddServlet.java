@@ -24,7 +24,6 @@ import entities.AppUser;
 import entities.BookFile;
 import entities.Ebook;
 import helpers.CustomIndexer;
-import helpers.Indexer;
 
 public class BookAddServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

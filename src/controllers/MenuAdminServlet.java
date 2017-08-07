@@ -57,6 +57,17 @@ public class MenuAdminServlet extends HttpServlet {
 					idInt = 1;
 				}
 				
+				String categoryDeletion = (String) request.getAttribute("categoryDeletion");
+				String bookDeletion = (String) request.getAttribute("bookDeletion");
+				
+				if(categoryDeletion != null && categoryDeletion.equals("yes")){
+					idInt = 1;
+					request.setAttribute("categoryDeletion", "no");
+				} else if(bookDeletion != null && bookDeletion.equals("yes")){
+					request.setAttribute("bookDeletion", "no");
+					idInt = (int) request.getAttribute("bookCategory");
+				}
+				
 				Category c = categoryDao.findById(idInt);
 				
 				request.setAttribute("adminCategory", c);

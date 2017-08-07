@@ -30,20 +30,26 @@ public class CustomIndexer {
 	private PDFHandler pdfHandler = new PDFHandler();
 	
 	public void indexBooks(){
+		boolean indexed = false;
+		
 		List<Category> categories = categoryDao.findAllNotDeleted();
 		
 		for(Category category : categories){
 			List<Ebook> books = bookDao.findBooksByCategoryNotDeleted(category);
 			
 			for(Ebook book : books){
-				indexBook(book);
+				indexed = indexBook(book);
 			}
 		}
 		
-		LOGGER.info("Successfully indexed books");
+		if(indexed){
+			LOGGER.info("Successfully indexed books");
+		} else {
+			LOGGER.error("There was an error in the indexing process!");
+		}
 	}
 	
-	public void indexBook(Ebook book){
+	public boolean indexBook(Ebook book){
 		Indexer indexer = Indexer.getInstance();
 		Document doc = new Document();
 		
@@ -68,8 +74,9 @@ public class CustomIndexer {
 		doc.add(new TextField("title", book.getEBooktitle(), Store.YES));
 		doc.add(new TextField("content", bookText, Store.YES));
 		doc.add(new IntField("language", book.getEBooklanguage().getLanguageId(), Store.YES));
+		doc.add(new TextField("filename", bookFile.getFileName(), Store.YES));
 		
-		indexer.add(doc);
+		return indexer.add(doc);
 	}
 	
 	public String[] getKeywords(String keywordsString){
@@ -95,5 +102,11 @@ public class CustomIndexer {
 		}
 		
 		return authorsList;
+	}
+	
+	public boolean deleteIndex(Ebook book){
+		Indexer indexer = Indexer.getInstance();
+		
+		return indexer.delete(book.getEBookfileid().getFileName());
 	}
 }

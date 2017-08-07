@@ -52,6 +52,9 @@ public class CategoryDeleteServlet extends HttpServlet {
 			
 			fileDao.deleteFolder(selectedCategory.getCategoryId());
 			
+			// because boolean can't be null
+			request.setAttribute("categoryDeletion", "yes");
+			
 			getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
 		}
 		catch (ServletException e) {

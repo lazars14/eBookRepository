@@ -13,6 +13,7 @@ import dao.EbookDAO;
 import dao.FileDAO;
 import entities.AppUser;
 import entities.Ebook;
+import helpers.CustomIndexer;
 
 public class BookDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -21,6 +22,7 @@ public class BookDeleteServlet extends HttpServlet {
 	
 	private EbookDAO eBookDao;
 	private FileDAO fileDao;
+	private CustomIndexer customIndexer;
 	
     public BookDeleteServlet() {
         super();
@@ -34,6 +36,7 @@ public class BookDeleteServlet extends HttpServlet {
 		
 		eBookDao = new EbookDAO();
 		fileDao = new FileDAO();
+		customIndexer = new CustomIndexer();
 		
 		try
 		{
@@ -44,7 +47,17 @@ public class BookDeleteServlet extends HttpServlet {
 			fileDao.deleteFile(selectedEbook.getEBookfileid().getFileName(), selectedEbook.getEBookcategory().getCategoryId());
 			eBookDao.merge(selectedEbook);
 			
-			LOGGER.info("Ebook " + selectedEbook.getEBooktitle() + " has been deleted by " + admin.getAppUserUsername());
+			boolean deletedIndex = customIndexer.deleteIndex(selectedEbook);
+			
+			if(deletedIndex){
+				LOGGER.info("Ebook " + selectedEbook.getEBooktitle() + " has been deleted by " + admin.getAppUserUsername());
+			} else {
+				LOGGER.info("Couldn't delete index for Ebook with id " + selectedEbook.getEBookid() + ".");
+			}
+			
+			// because boolean can't be null
+			request.setAttribute("bookDeletion", "yes");
+			request.setAttribute("bookCategory", selectedEbook.getEBookcategory().getCategoryId());
 			
 			getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
 		}
