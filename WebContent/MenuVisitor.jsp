@@ -55,7 +55,7 @@
 			<td align="center">${ fn:substring(i.EBookkeywords, 0, 50).concat("...") }</td>
 			<td align="center">${ i.EBookpublicationyear }</td>
 			<td align="center">${ i.EBooklanguage.languageName }</td>
-			<td align="center"><img src="images/download.png" onclick="openOverlay('banner')"></td>
+			<td align="center"><a href="#"><img src="images/download.png" onclick="openOverlay('banner')"></a></td>
 		</tr>
 		<c:set var="rb3" scope="page" value="${rb3 + 1}"/>
 	</c:forEach>

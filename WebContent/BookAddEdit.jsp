@@ -6,6 +6,8 @@
 <%@ page import="entities.Category" %>
 <%@ page import="java.util.List" %>
 
+<script type="text/javascript" src="js/validation.js"></script>
+
 <c:if test="${sessionScope.admin == null}">
 	<c:redirect url="MenuVisitorServlet"/>
 </c:if>
@@ -41,7 +43,7 @@
 		</c:otherwise>
 	</c:choose>
 	
-	<form action="${ servlet }" method="post" enctype="multipart/form-data">
+	<form name="form" action="${ servlet }" method="post" enctype="multipart/form-data" onsubmit="return checkFile()">
 		<table>
 			<tr>
 				<td><fmt:message key="naslov"/></td>

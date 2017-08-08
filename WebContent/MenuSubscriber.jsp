@@ -69,7 +69,7 @@
 					<td align="center"><a href="BookDownloadServlet?id=${ i.EBookid }"><img src="images/download.png"></a></td>
 				</c:when>
 				<c:otherwise>
-					<td align="center"><img src="images/download.png" onclick="openOverlay('banner')"></td>
+					<td align="center"><a href="#"><img src="images/download.png" onclick="openOverlay('banner')"></a></td>
 				</c:otherwise>
 			</c:choose>
 			

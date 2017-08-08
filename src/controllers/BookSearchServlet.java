@@ -35,8 +35,13 @@ public class BookSearchServlet extends HttpServlet {
 			String author = request.getParameter("author");
 			String keyword = request.getParameter("keyword");
 			String content = request.getParameter("content");
-			
 			BookLanguage language = languageDao.findById(Integer.parseInt(request.getParameter("languageSelect")));
+			
+			boolean title_checkbox = Boolean.parseBoolean(request.getParameter("title_checkbox"));
+			boolean author_checkbox = Boolean.parseBoolean(request.getParameter("author_checkbox"));
+			boolean keyword_checkbox = Boolean.parseBoolean(request.getParameter("keyword_checkbox"));
+			boolean content_checkbox = Boolean.parseBoolean(request.getParameter("content_checkbox"));
+			boolean language_checkbox = Boolean.parseBoolean(request.getParameter("language_checkbox"));
 			
 			// ovo ne bi trebalo ovako, trebalo bi preko ajax-a!!!
 			

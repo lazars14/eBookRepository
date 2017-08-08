@@ -1,10 +1,6 @@
 package controllers;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,7 +26,6 @@ public class BookSearchPrepareServlet extends HttpServlet {
 	
     public BookSearchPrepareServlet() {
         super();
-        Indexer.getInstance().index(new File(ResourceBundle.getBundle("app").getString("storage")));
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -53,13 +48,6 @@ public class BookSearchPrepareServlet extends HttpServlet {
 				user = "visitor";
 			}
 			
-			List<String> occures = new ArrayList<String>();
-			for(Occur o : Occur.values()){
-				occures.add(o.toString());
-			}
-			
-			request.setAttribute("occures", occures);
-			request.setAttribute("searchTypes", SearchType.getMessages());
 			request.setAttribute("user", user);
 			request.setAttribute("userCategory", userCategory);
 			request.setAttribute("languages", bookLanguageDao.findAllNotDeleted());

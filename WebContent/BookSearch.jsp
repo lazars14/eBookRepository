@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 
+<script type="text/javascript" src="js/validation.js"></script>
+
 <c:choose>
     <c:when test="${sessionScope.subscriber != null}">
     	<c:set var="location" scope="page" value="MenuSubscriberServlet"/>	
@@ -37,25 +39,25 @@
 <h1><fmt:message key="pretragaKnjiga"/></h1>
 </br>
 
-<form action="BookSearchServlet" method="post">
+<form name="form" action="BookSearchServlet" method="post" onsubmit="return searchValidation()">
 	<table border="1">
 	<tr>
-		<td><fmt:message key="pretragaPoNaslovu"/></td>
+		<td><label id="titleError"><fmt:message key="pretragaPoNaslovu"/></label></td>
 		<td><input type="text" name="title" maxLength="80"/></td>
 		<td><input type="checkbox" name="title_checkbox"/></td>
 	</tr>
 	<tr>
-		<td><fmt:message key="pretragaPoAutoru"/></td>
+		<td><label id="authorError"><fmt:message key="pretragaPoAutoru"/></label></td>
 		<td><input type="text" name="author" maxLength="120"/></td>
 		<td><input type="checkbox" name="author_checkbox"/></td>
 	</tr>
 	<tr>
-		<td><fmt:message key="pretragaPoKljucnimRecima"/></td>
+		<td><label id="keywordError"><fmt:message key="pretragaPoKljucnimRecima"/></label></td>
 		<td><input type="text" name="keyword" maxLength="120"/></td>
 		<td><input type="checkbox" name="keyword_checkbox"/></td>
 	</tr>
 	<tr>
-		<td><fmt:message key="pretragaPoSadrzaju"/></td>
+		<td><label id="contentError"><fmt:message key="pretragaPoSadrzaju"/></label></td>
 		<td><input type="text" name="content" maxLength="100"/></td>
 		<td><input type="checkbox" name="content_checkbox"/></td>
 	</tr>
