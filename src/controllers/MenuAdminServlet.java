@@ -20,9 +20,9 @@ public class MenuAdminServlet extends HttpServlet {
     
 	private static final Logger LOGGER = LogManager.getLogger(MenuAdminServlet.class);
 	
-	private CategoryDAO categoryDao;
+	private CategoryDAO categoryDao = new CategoryDAO();
 	
-	private EbookDAO eBookDao;
+	private EbookDAO eBookDao = new EbookDAO();
 	
     public MenuAdminServlet() {
         super();
@@ -34,9 +34,6 @@ public class MenuAdminServlet extends HttpServlet {
 		if(session.getAttribute("admin") == null){
 			response.sendRedirect("MenuVisitorServlet");
 		}
-		
-		categoryDao = new CategoryDAO();
-		eBookDao = new EbookDAO();
 		
 		try
 		{

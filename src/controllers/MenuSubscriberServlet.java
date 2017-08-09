@@ -22,11 +22,11 @@ public class MenuSubscriberServlet extends HttpServlet {
 	
 	private static final Logger LOGGER = LogManager.getLogger(MenuSubscriberServlet.class);
 	
-	private CategoryDAO categoryDao;
+	private CategoryDAO categoryDao = new CategoryDAO();
 	
-	private EbookDAO eBookDao;
+	private EbookDAO eBookDao = new EbookDAO();
 	
-	private AppUserDAO appUserDao;
+	private AppUserDAO appUserDao = new AppUserDAO();
 	
     public MenuSubscriberServlet() {
         super();
@@ -39,10 +39,6 @@ public class MenuSubscriberServlet extends HttpServlet {
 		if(session.getAttribute("subscriber") == null){
 			response.sendRedirect("MenuVisitorServlet");
 		}
-		
-		categoryDao = new CategoryDAO();
-		eBookDao = new EbookDAO();
-		appUserDao = new AppUserDAO();
 		
 		try
 		{

@@ -20,9 +20,9 @@ public class BookDeleteServlet extends HttpServlet {
     
 	private static final Logger LOGGER = LogManager.getLogger(BookDeleteServlet.class);
 	
-	private EbookDAO eBookDao;
-	private FileDAO fileDao;
-	private CustomIndexer customIndexer;
+	private EbookDAO eBookDao = new EbookDAO();
+	private FileDAO fileDao = new FileDAO();
+	private CustomIndexer customIndexer = new CustomIndexer();
 	
     public BookDeleteServlet() {
         super();
@@ -33,10 +33,6 @@ public class BookDeleteServlet extends HttpServlet {
 		{
 			response.sendRedirect("MenuVisitorServlet");
 		}
-		
-		eBookDao = new EbookDAO();
-		fileDao = new FileDAO();
-		customIndexer = new CustomIndexer();
 		
 		try
 		{

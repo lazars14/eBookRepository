@@ -18,7 +18,7 @@ public class ChangePersonalInfoServlet extends HttpServlet {
     
 	private static final Logger LOGGER = LogManager.getLogger(ChangePersonalInfoServlet.class);
 	
-	private AppUserDAO appUserDao;
+	private AppUserDAO appUserDao = new AppUserDAO();
 	
     public ChangePersonalInfoServlet() {
         super();
@@ -28,8 +28,6 @@ public class ChangePersonalInfoServlet extends HttpServlet {
     	String firstname = request.getParameter("firstname");
     	String lastname = request.getParameter("lastname");
 		AppUser loggedUser = null;
-		
-		appUserDao = new AppUserDAO();
 		
 		try
 		{

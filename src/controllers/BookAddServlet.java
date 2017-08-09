@@ -30,12 +30,12 @@ public class BookAddServlet extends HttpServlet {
     
 	private static final Logger LOGGER = LogManager.getLogger(BookAddServlet.class);
 	
-	private EbookDAO eBookDao;
-	private BookFileDAO bookFileDao;
-	private CategoryDAO categoryDao;
-	private BookLanguageDAO bookLanguageDao;
-	private FileDAO fileDao;
-	private CustomIndexer customIndexer;
+	private EbookDAO eBookDao = new EbookDAO();
+	private BookFileDAO bookFileDao = new BookFileDAO();
+	private CategoryDAO categoryDao = new CategoryDAO();
+	private BookLanguageDAO bookLanguageDao = new BookLanguageDAO();
+	private FileDAO fileDao = new FileDAO();
+	private CustomIndexer customIndexer = new CustomIndexer();
 	
     public BookAddServlet() {
         super();
@@ -50,13 +50,6 @@ public class BookAddServlet extends HttpServlet {
 		{
 			response.sendRedirect("MenuVisitorServlet");
 		}
-		
-		eBookDao = new EbookDAO();
-		bookFileDao = new BookFileDAO();
-		categoryDao = new CategoryDAO();
-		bookLanguageDao = new BookLanguageDAO();
-		fileDao = new FileDAO();
-		customIndexer = new CustomIndexer();
 		
 		Ebook newEbook = new Ebook();
 		newEbook.setEBookdeleted(false);

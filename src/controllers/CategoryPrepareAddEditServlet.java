@@ -18,7 +18,7 @@ public class CategoryPrepareAddEditServlet extends HttpServlet {
        
 	private static final Logger LOGGER = LogManager.getLogger(CategoryPrepareAddEditServlet.class);
 	
-	private CategoryDAO categoryDao;
+	private CategoryDAO categoryDao = new CategoryDAO();
 	
     public CategoryPrepareAddEditServlet() {
         super();
@@ -30,7 +30,6 @@ public class CategoryPrepareAddEditServlet extends HttpServlet {
 			response.sendRedirect("MenuVisitorServlet");
 		}
 		
-		categoryDao = new CategoryDAO();
 		String action = "";
 		
 		try

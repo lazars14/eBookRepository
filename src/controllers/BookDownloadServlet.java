@@ -26,8 +26,8 @@ public class BookDownloadServlet extends HttpServlet {
     
 	private final static Logger LOGGER = LogManager.getLogger(BookDownloadServlet.class);
 	
-	private EbookDAO ebookDao;
-	private FileDAO fileDao;
+	private EbookDAO ebookDao = new EbookDAO();
+	private FileDAO fileDao = new FileDAO();
 	
     public BookDownloadServlet() {
         super();
@@ -38,9 +38,6 @@ public class BookDownloadServlet extends HttpServlet {
 		{
 			response.sendRedirect("MenuVisitorServlet");
 		}
-		 
-		ebookDao = new EbookDAO();
-		fileDao = new FileDAO();
 		
 		Ebook book = ebookDao.findById(Integer.parseInt(request.getParameter("id")));
 		BookFile bookFile = book.getEBookfileid();

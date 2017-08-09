@@ -10,26 +10,22 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.lucene.search.BooleanClause.Occur;
 
 import dao.BookLanguageDAO;
 import entities.AppUser;
-import helpers.Indexer;
-import helpers.SearchType;
 
 public class BookSearchPrepareServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
      
 	private final Logger LOGGER = LogManager.getLogger(BookSearchPrepareServlet.class);
 	
-	private BookLanguageDAO bookLanguageDao;
+	private BookLanguageDAO bookLanguageDao = new BookLanguageDAO();
 	
     public BookSearchPrepareServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		bookLanguageDao = new BookLanguageDAO();
 		HttpSession session = request.getSession();
 		
 		String user = "";

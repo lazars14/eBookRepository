@@ -16,7 +16,7 @@ import entities.AppUser;
 public class ChangePasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private AppUserDAO appUserDao;
+	private AppUserDAO appUserDao = new AppUserDAO();
 	
 	private static final Logger LOGGER = LogManager.getLogger(ChangePasswordServlet.class);
 	
@@ -27,9 +27,7 @@ public class ChangePasswordServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String newPassword = request.getParameter("newPassword");
 		AppUser loggedUser = null;
-		
-		appUserDao = new AppUserDAO();
-		
+
 		try
 		{
 			if(request.getSession().getAttribute("admin") != null)

@@ -19,9 +19,9 @@ public class BookPrepareAddEditServlet extends HttpServlet {
 	
 	private final Logger LOGGER = LogManager.getLogger(BookPrepareAddEditServlet.class);
 	
-	private EbookDAO eBookDao;
-	private CategoryDAO categoryDao;
-	private BookLanguageDAO bookLanguageDao;
+	private EbookDAO eBookDao = new EbookDAO();
+	private CategoryDAO categoryDao = new CategoryDAO();
+	private BookLanguageDAO bookLanguageDao = new BookLanguageDAO();
 	
 	public BookPrepareAddEditServlet() {
         super();
@@ -32,10 +32,6 @@ public class BookPrepareAddEditServlet extends HttpServlet {
 		{
 			response.sendRedirect("MenuVisitorServlet");
 		}
-		
-		eBookDao = new EbookDAO();
-		categoryDao = new CategoryDAO();
-		bookLanguageDao = new BookLanguageDAO();
 		
 		try
 		{

@@ -20,7 +20,7 @@ public class LoginServlet extends HttpServlet {
      
 	private static final Logger LOGGER = LogManager.getLogger(LoginServlet.class);
 	
-	private AppUserDAO appUserDao;
+	private AppUserDAO appUserDao = new AppUserDAO();
 	
     public LoginServlet() {
         super();
@@ -30,8 +30,6 @@ public class LoginServlet extends HttpServlet {
 		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		
-		appUserDao = new AppUserDAO();
 		
 		try
 		{

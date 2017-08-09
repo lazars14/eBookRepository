@@ -20,9 +20,9 @@ public class CategoryDeleteServlet extends HttpServlet {
     
 	private static final Logger LOGGER = LogManager.getLogger(CategoryDeleteServlet.class);
 	
-	private CategoryDAO categoryDao;
+	private CategoryDAO categoryDao = new CategoryDAO();
 	
-	private FileDAO fileDao;
+	private FileDAO fileDao = new FileDAO();
 	
     public CategoryDeleteServlet() {
         super();
@@ -37,9 +37,6 @@ public class CategoryDeleteServlet extends HttpServlet {
 		{
 			response.sendRedirect("MenuVisitorServlet");
 		}
-		
-		categoryDao = new CategoryDAO();
-		fileDao = new FileDAO();
 		
 		try
 		{

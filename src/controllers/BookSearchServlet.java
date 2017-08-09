@@ -17,7 +17,7 @@ public class BookSearchServlet extends HttpServlet {
     
 	private final Logger LOGGER = LogManager.getLogger(BookSearchServlet.class);
 	
-	private BookLanguageDAO languageDao;
+	private BookLanguageDAO languageDao = new BookLanguageDAO();
 	
     public BookSearchServlet() {
         super();
@@ -28,7 +28,6 @@ public class BookSearchServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		languageDao = new BookLanguageDAO();
 		
 		try {
 			String title = request.getParameter("title");
