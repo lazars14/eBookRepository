@@ -42,6 +42,11 @@
 <form name="form" action="BookSearchServlet" method="post" onsubmit="return searchValidation()">
 	<table border="1">
 	<tr>
+		<th><fmt:message key="kriterijum"/></th>
+		<th><fmt:message key="vrednost"/></th>
+		<th><fmt:message key="x"/></th>
+	</tr>
+	<tr>
 		<td><label id="titleError"><fmt:message key="pretragaPoNaslovu"/></label></td>
 		<td><input type="text" name="title" maxLength="80"/></td>
 		<td><input type="checkbox" name="title_checkbox"/></td>
@@ -74,7 +79,7 @@
 	</tr>
 </table>
 
-<button type="submit"><fmt:message key="pretrazi"/></button>
+<button type="submit"><fmt:message key="ok"/></button>
 
 </form>
 
@@ -91,7 +96,7 @@
 	 -->
 
 
-<a href="${ location }"><fmt:message key="glavniMeni"/></a>
+<a href="${ location }"><fmt:message key="pocetna"/></a>
 <c:if test="${sessionScope.admin != null || sessionScope.subscriber != null}">
     <a href="LogoutServlet"><fmt:message key="odjava"/></a>
 </c:if>

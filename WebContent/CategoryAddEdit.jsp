@@ -49,7 +49,7 @@
 		</table>
 	</form>
 	
-	<a href="MenuAdminServlet"><fmt:message key="glavniMeni"/></a>
+	<a href="MenuAdminServlet"><fmt:message key="pocetna"/></a>
 	<a href="LogoutServlet"><fmt:message key="odjava"/></a>
 </body>
 </html>

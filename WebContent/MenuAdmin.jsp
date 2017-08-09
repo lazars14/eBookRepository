@@ -73,7 +73,7 @@ function delMovie(message){
 		<tr>
 			<th><fmt:message key="redniBroj"/></th>
 			<th><fmt:message key="naslov"/></th>
-			<th><fmt:message key="autor"/></th>
+			<th><fmt:message key="autori"/></th>
 			<th><fmt:message key="kljucneReci"/></th>
 			<th><fmt:message key="godinaIzdavanja"/></th>
 			<th><fmt:message key="jezik"/></th>
@@ -89,7 +89,7 @@ function delMovie(message){
 			<td align="center">${ i.EBooklanguage.languageName }</td>
 			<td align="center"><a href="BookPrepareAddEditServlet?id=${ i.EBookid }"><fmt:message key="izmeni"/></a></td>
 			<td align="center"><a href="BookDeleteServlet?id=${i.EBookid}" onclick="return delMovie('<fmt:message key="daLiSteSigurniKnjiga"/>')"><fmt:message key="obrisi"/></a></td>
-			<td align="center"><a href="BookDownloadServlet?id=${i.EBookid}"><fmt:message key="preuzmi"/></a></td>
+			<td align="center"><a href="BookDownloadServlet?id=${i.EBookid}"><fmt:message key="skidanje"/></a></td>
 		</tr>
 		<c:set var="rb3" scope="page" value="${rb3 + 1}"/>
 	</c:forEach>

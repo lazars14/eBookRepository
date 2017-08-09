@@ -40,7 +40,7 @@
 		<tr>
 			<th><fmt:message key="redniBroj"/></th>
 			<th><fmt:message key="naslov"/></th>
-			<th><fmt:message key="autor"/></th>
+			<th><fmt:message key="autori"/></th>
 			<th><fmt:message key="kljucneReci"/></th>
 			<th><fmt:message key="godinaIzdavanja"/></th>
 			<th><fmt:message key="jezik"/></th>
@@ -64,9 +64,9 @@
 	<div id="banner" class="overlay">
         <a href="javascript:void(0)" class="closebtn" onclick="closeOverlay('banner')">&times;</a>
         <div class="overlay-content">
-            <h2>Morate da se registrujete kako biste preuzili sadrzaj!</h2>
+            <h2><fmt:message key="registracijaPoruka"/></h2>
             </br>
-            <a href="#">Registracija</a>
+            <a href="#"><fmt:message key="registracija"/></a>
         </div>
     </div>
 	

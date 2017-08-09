@@ -50,7 +50,7 @@
 				<td><input type="text" maxlength="30" name="title" required="required" oninvalid="this.setCustomValidity('<fmt:message key="unesiteNazivKnjige"/>')" onchange="this.setCustomValidity('')" value="${eBookAddEdit.EBooktitle}"></td>
 			</tr>
 			<tr>
-				<td><fmt:message key="autor"/></td>
+				<td><fmt:message key="autori"/></td>
 				<td><input type="text" maxlength="30" name="author" required="required" oninvalid="this.setCustomValidity('<fmt:message key="unesiteNazivKnjige"/>')" onchange="this.setCustomValidity('')" value="${eBookAddEdit.EBookauthor}"></td>
 			</tr>
 			<tr>
@@ -109,7 +109,7 @@
 		</table>
 	</form>
 	
-	<a href="MenuAdminServlet"><fmt:message key="glavniMeni"/></a>
+	<a href="MenuAdminServlet"><fmt:message key="pocetna"/></a>
 	<a href="LogoutServlet"><fmt:message key="odjava"/></a>
 </body>
 </html>

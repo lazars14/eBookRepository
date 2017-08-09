@@ -36,6 +36,6 @@
 	</form>
 	<a href="ChangeLanguageServlet?lang=en" name="language">ENG</a>
 	<a href="ChangeLanguageServlet?lang=sr" name="language">SRP</a>
-	<a href="MenuVisitorServlet">Continue without logining in</a>
+	<a href="MenuVisitorServlet"><fmt:message key="nastaviBezPrijave"/></a>
 </body>
 </html>
