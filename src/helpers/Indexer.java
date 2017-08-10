@@ -121,7 +121,8 @@ public class Indexer {
 		}
 	}
 	
-	public boolean updateDocument(String filename, List<IndexableField> fields){		
+	public boolean updateDocument(String filename, List<IndexableField> fields){
+		System.out.println(filename+ "u indekseru");
 		try {
 			DirectoryReader reader = DirectoryReader.open(this.indexDir);
 			IndexSearcher is = new IndexSearcher(reader);
@@ -131,9 +132,11 @@ public class Indexer {
 			
 			ScoreDoc[] scoreDocs = collector.topDocs().scoreDocs;
 			if(scoreDocs.length > 0){
+				System.out.println("Pronasao fajl");
 				int docID = scoreDocs[0].doc;
 				Document doc = is.doc(docID);
 				if(doc != null){
+					System.out.println("Pronasao dokument u indeksima");
 					for(IndexableField field : fields){
 						doc.removeFields(field.name());
 					}
@@ -151,6 +154,7 @@ public class Indexer {
 				}
 			}
 			
+			System.out.println("Puko");
 			return false;
 			
 		} catch (IOException e) {

@@ -23,6 +23,7 @@ import dao.FileDAO;
 import entities.AppUser;
 import entities.BookFile;
 import entities.Ebook;
+import helpers.CustomIndexer;
 import helpers.Indexer;
 
 public class BookEditServlet extends HttpServlet {
@@ -35,6 +36,7 @@ public class BookEditServlet extends HttpServlet {
 	private CategoryDAO categoryDao = new CategoryDAO();
 	private BookLanguageDAO bookLanguageDao = new BookLanguageDAO();
 	private FileDAO fileDao = new FileDAO();
+	private CustomIndexer customIndexer = new CustomIndexer();
 	
     public BookEditServlet() {
         super();
@@ -50,20 +52,18 @@ public class BookEditServlet extends HttpServlet {
 			response.sendRedirect("MenuVisitorServlet");
 		}
 		
-		Ebook newEbook = new Ebook();
-		newEbook.setEBookdeleted(false);
+		Ebook newEbook = eBookDao.findById(Integer.parseInt(request.getParameter("id")));
+		System.out.println(newEbook.getEBooktitle());
 		
 		BookFile newBookFile = new BookFile();
 		
 		AppUser loggedUser = (AppUser) request.getSession().getAttribute("admin");
 		
+		boolean fileChanged = false;
+		
 		String storagePath = "";
 		
-		boolean valid = false;
-		
 		try{
-			// String storagePath = ResourceBundle.getBundle("app").getString("storage");
-			
 			if(ServletFileUpload.isMultipartContent(request)){
 				
 				DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -78,12 +78,14 @@ public class BookEditServlet extends HttpServlet {
 					for(FileItem item : items){ //trebalo bi da ima samo 1
 						if(!item.isFormField()){
 							fileName = item.getName();
-							if(fileName.endsWith("pdf")){
-								LOGGER.info("Usao u pdf");
-								valid = true;
-							}
 							
-							if(valid){
+							// file not changed
+							if(fileName.substring(0, fileName.length() - 4).equals(newEbook.getEBookfileid().getFileName()))
+							{
+								fileChanged = false;
+							}
+							else {
+								fileChanged = true;
 								uploadedFile = new File(storagePath, fileName);
 								fileItem = item;
 							}
@@ -118,11 +120,9 @@ public class BookEditServlet extends HttpServlet {
 						}
 					}
 					
-					// user changed the file
-					if(valid){
+					if(fileChanged){
 						uploadedFile.createNewFile();
 						fileItem.write(uploadedFile);
-						Indexer.getInstance().index(uploadedFile);
 						
 						newBookFile.setFileName(fileName.substring(0, fileName.length() - 4));
 						newBookFile.setFileMime("application/pdf");
@@ -136,16 +136,19 @@ public class BookEditServlet extends HttpServlet {
 				getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
 			}
 			
-			if(valid){
+			if(fileChanged){
 				bookFileDao.persist(newBookFile);
 				newEbook.setEBookfileid(newBookFile);
-			}else{
-				BookFile b = eBookDao.findById(newEbook.getEBookid()).getEBookfileid();
-				newEbook.setEBookfileid(b);
 			}
+	
+			boolean successfullIndexUpdate = customIndexer.editIndex(newEbook);
 			
-			eBookDao.merge(newEbook);
-			LOGGER.info("A book with the id: " + newEbook.getEBookid() + " has been changed by " + loggedUser.getAppUserUsername());
+			if(successfullIndexUpdate){
+				eBookDao.merge(newEbook);
+				LOGGER.info("A book with the id: " + newEbook.getEBookid() + " has been changed by " + loggedUser.getAppUserUsername());
+			} else {
+				LOGGER.info("The user pointed to the wrong file while trying to change the ebook with id " + newEbook.getEBookid() + ".");
+			}
 			
 			getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
 		} 

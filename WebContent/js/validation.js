@@ -37,7 +37,12 @@ function searchValidation() {
     var checkboxes = [titleCb, authorCb, keywordCb, contentCb];
     var fields = [titleField, authorField, keywordField, contentField];
     var nameFields = [titleName, authorName, keywordName, contentName];
-  
+    
+    /*if(titleCb == false && authorCb == false && keywordCb == false && contentCb == false){
+    	alert("Morate da unesete neki kriterijum!");
+    	return false;
+    }*/
+    
     return searchLogic(checkboxes, fields, nameFields);
 }
 

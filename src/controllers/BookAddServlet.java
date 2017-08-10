@@ -123,10 +123,19 @@ public class BookAddServlet extends HttpServlet {
 					
 					uploadedFile.createNewFile();
 					fileItem.write(uploadedFile);
-					//Indexer.getInstance().index(uploadedFile);
 					
 					newBookFile.setFileName(fileName.substring(0, fileName.length() - 4));
 					newBookFile.setFileMime("application/pdf");
+					
+					bookFileDao.persist(newBookFile);
+					
+					newEbook.setEBookfileid(newBookFile);
+					
+					eBookDao.persist(newEbook);
+					
+					customIndexer.indexBook(newEbook);
+					
+					LOGGER.info("A book with the name: " + newEbook.getEBooktitle() + " has been added by " + loggedUser.getAppUserUsername());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -137,17 +146,7 @@ public class BookAddServlet extends HttpServlet {
 				LOGGER.info("Not multipart");
 				getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
 			}
-			
-			bookFileDao.persist(newBookFile);
-			
-			newEbook.setEBookfileid(newBookFile);
-			
-			eBookDao.persist(newEbook);
-			
-			customIndexer.indexBook(newEbook);
-			
-			LOGGER.info("A book with the name: " + newEbook.getEBooktitle() + " has been added by " + loggedUser.getAppUserUsername());
-			
+		
 			getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
 		} 
 		catch(NumberFormatException e) {

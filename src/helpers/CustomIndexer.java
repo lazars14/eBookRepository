@@ -1,7 +1,6 @@
 package helpers;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.LogManager;
@@ -11,7 +10,6 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.IndexableField;
 
 import dao.BookFileDAO;
 import dao.CategoryDAO;
@@ -81,16 +79,40 @@ public class CustomIndexer {
 		return indexer.add(doc);
 	}
 	
-	public String[] getKeywords(String keywordsString){
-		String[] keywordsList = null;
+	public boolean deleteIndex(Ebook book){
+		Indexer indexer = Indexer.getInstance();
 		
-		try {
-			keywordsList = keywordsString.split("\\|");
-		} catch(Exception e){
-			LOGGER.error("Cannot split keywords, bad input!");
+		return indexer.delete(book.getEBookfileid().getFileName());
+	}
+	
+	public boolean editIndex(Ebook book){
+		Indexer indexer = Indexer.getInstance();
+		Document doc = new Document();
+		
+		String[] keywords = getKeywords(book.getEBookkeywords());
+		for(String s : keywords){
+			doc.add(new TextField("keyword", s, Store.YES));
 		}
 		
-		return keywordsList;
+		boolean singleAuthor = false;
+		String[] authors = getAuthors(book.getEBookauthor(), singleAuthor);
+		if(singleAuthor){
+			doc.add(new TextField("author", book.getEBookauthor(), Store.YES));
+		} else {
+			for(String a : authors){
+				doc.add(new TextField("author", a, Store.YES));
+			}
+		}
+		
+		BookFile bookFile = bookFileDao.findById(book.getEBookid());
+		String bookText = pdfHandler.getText(new File(fileDao.buildFileNamePath(bookFile.getFileName(), book.getEBookcategory().getCategoryId())));
+		
+		doc.add(new TextField("title", book.getEBooktitle(), Store.YES));
+		doc.add(new TextField("content", bookText, Store.YES));
+		doc.add(new IntField("language", book.getEBooklanguage().getLanguageId(), Store.YES));
+		doc.add(new TextField("filename", bookFile.getFileName(), Store.YES));
+		
+		return indexer.updateDocument(book.getEBookfileid().getFileName(), doc.getFields());
 	}
 	
 	public String[] getAuthors(String authorsString, boolean singleAuthor){
@@ -106,18 +128,15 @@ public class CustomIndexer {
 		return authorsList;
 	}
 	
-	public boolean deleteIndex(Ebook book){
-		Indexer indexer = Indexer.getInstance();
+	public String[] getKeywords(String keywordsString){
+		String[] keywordsList = null;
 		
-		return indexer.delete(book.getEBookfileid().getFileName());
-	}
-	
-	public boolean editIndex(Ebook book){
-		Indexer indexer = Indexer.getInstance();
+		try {
+			keywordsList = keywordsString.split("\\|");
+		} catch(Exception e){
+			LOGGER.error("Cannot split keywords, bad input!");
+		}
 		
-		List<IndexableField> fields = new ArrayList<IndexableField>();
-		
-		
-		return indexer.updateDocument(book.getEBookfileid().getFileName(), fields);
+		return keywordsList;
 	}
 }

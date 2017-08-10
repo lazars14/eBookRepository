@@ -1,8 +1,5 @@
 package helpers;
 
-import java.io.File;
-import java.util.ResourceBundle;
-
 public class StartIndexer {
 	
 	public static void main(String[] args) {
