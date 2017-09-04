@@ -47,7 +47,7 @@ public class CategoryDeleteServlet extends HttpServlet {
 			categoryDao.merge(selectedCategory);
 			LOGGER.info("Category " + selectedCategory.getCategoryName() + " has been deleted by " + admin.getAppUserUsername());
 			
-			fileDao.deleteFolder(selectedCategory.getCategoryId());
+			//fileDao.deleteFolder(selectedCategory.getCategoryId());
 			
 			// because boolean can't be null
 			request.setAttribute("categoryDeletion", "yes");

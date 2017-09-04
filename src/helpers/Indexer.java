@@ -96,8 +96,8 @@ public class Indexer {
 	 * @param value vrednost polja
 	 * @return
 	 */
-	public boolean delete(String filename){
-		Term delTerm = new Term("filename", filename);
+	public boolean delete(String bookFileId){
+		Term delTerm = new Term("bookFileId", bookFileId);
 		try {
 			synchronized (this) {
 				this.indexWriter.deleteDocuments(delTerm);
@@ -121,22 +121,19 @@ public class Indexer {
 		}
 	}
 	
-	public boolean updateDocument(String filename, List<IndexableField> fields){
-		System.out.println(filename+ "u indekseru");
+	public boolean updateDocument(String bookFileId, List<IndexableField> fields){
 		try {
 			DirectoryReader reader = DirectoryReader.open(this.indexDir);
 			IndexSearcher is = new IndexSearcher(reader);
-			Query query = new TermQuery(new Term("filename", filename));
+			Query query = new TermQuery(new Term("bookFileId", bookFileId));
 			TopScoreDocCollector collector = TopScoreDocCollector.create(10, true);
 			is.search(query, collector);
 			
 			ScoreDoc[] scoreDocs = collector.topDocs().scoreDocs;
 			if(scoreDocs.length > 0){
-				System.out.println("Pronasao fajl");
 				int docID = scoreDocs[0].doc;
 				Document doc = is.doc(docID);
 				if(doc != null){
-					System.out.println("Pronasao dokument u indeksima");
 					for(IndexableField field : fields){
 						doc.removeFields(field.name());
 					}
@@ -145,7 +142,7 @@ public class Indexer {
 					}
 					try{
 						synchronized (this) {
-							this.indexWriter.updateDocument(new Term("filename", filename), doc);
+							this.indexWriter.updateDocument(new Term("bookFileId", bookFileId), doc);
 							this.indexWriter.commit();
 							return true;
 						}

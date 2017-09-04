@@ -54,7 +54,9 @@ public class PDFHandler extends DocumentHandler {
 			PDFParser parser = new PDFParser(new FileInputStream(file));
 			parser.parse();
 			PDFTextStripper textStripper = new PDFTextStripper("utf-8");
-			String text = textStripper.getText(parser.getPDDocument());
+			PDDocument doc = parser.getPDDocument();
+			String text = textStripper.getText(doc);
+			doc.close();
 			return text;
 		} catch (IOException e) {
 			System.out.println("Greksa pri konvertovanju dokumenta u pdf");

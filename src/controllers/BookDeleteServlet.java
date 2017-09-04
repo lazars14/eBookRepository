@@ -40,7 +40,7 @@ public class BookDeleteServlet extends HttpServlet {
 			AppUser admin = (AppUser) request.getSession().getAttribute("admin");
 			
 			selectedEbook.setEBookdeleted(true);
-			fileDao.deleteFile(selectedEbook.getEBookfileid().getFileName(), selectedEbook.getEBookcategory().getCategoryId());
+			//fileDao.deleteFile(selectedEbook.getEBookfileid().getFileName(), selectedEbook.getEBookcategory().getCategoryId());
 			eBookDao.merge(selectedEbook);
 			
 			boolean deletedIndex = customIndexer.deleteIndex(selectedEbook);
@@ -49,6 +49,7 @@ public class BookDeleteServlet extends HttpServlet {
 				LOGGER.info("Ebook " + selectedEbook.getEBooktitle() + " has been deleted by " + admin.getAppUserUsername());
 			} else {
 				LOGGER.info("Couldn't delete index for Ebook with id " + selectedEbook.getEBookid() + ".");
+				System.out.println("nije nasao id iz nekog razloga!");
 			}
 			
 			// because boolean can't be null

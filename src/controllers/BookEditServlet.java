@@ -24,7 +24,6 @@ import entities.AppUser;
 import entities.BookFile;
 import entities.Ebook;
 import helpers.CustomIndexer;
-import helpers.Indexer;
 
 public class BookEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -62,6 +61,7 @@ public class BookEditServlet extends HttpServlet {
 		boolean fileChanged = false;
 		
 		String storagePath = "";
+		String bookFileFilename = "";
 		
 		try{
 			if(ServletFileUpload.isMultipartContent(request)){
@@ -86,7 +86,9 @@ public class BookEditServlet extends HttpServlet {
 							}
 							else {
 								fileChanged = true;
-								uploadedFile = new File(storagePath, fileName);
+								long millis = System.currentTimeMillis() % 1000;
+								bookFileFilename = fileName.substring(0, fileName.length() - 4) + millis;
+								uploadedFile = new File(storagePath, bookFileFilename + ".pdf");
 								fileItem = item;
 							}
 						}
@@ -124,8 +126,11 @@ public class BookEditServlet extends HttpServlet {
 						uploadedFile.createNewFile();
 						fileItem.write(uploadedFile);
 						
-						newBookFile.setFileName(fileName.substring(0, fileName.length() - 4));
-						newBookFile.setFileMime("application/pdf");
+						newBookFile = bookFileDao.findById(newEbook.getEBookfileid().getFileId());
+						newBookFile.setFileName(bookFileFilename);
+						
+						bookFileDao.merge(newBookFile);
+						newEbook.setEBookfileid(newBookFile);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -134,11 +139,6 @@ public class BookEditServlet extends HttpServlet {
 			else {
 				LOGGER.info("Not multipart");
 				getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
-			}
-			
-			if(fileChanged){
-				bookFileDao.persist(newBookFile);
-				newEbook.setEBookfileid(newBookFile);
 			}
 	
 			boolean successfullIndexUpdate = customIndexer.editIndex(newEbook);

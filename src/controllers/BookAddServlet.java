@@ -59,6 +59,7 @@ public class BookAddServlet extends HttpServlet {
 		AppUser loggedUser = (AppUser) request.getSession().getAttribute("admin");
 		
 		String storagePath = "";
+		String bookFileFilename = "";
 		
 		try{
 			// String storagePath = ResourceBundle.getBundle("app").getString("storage");
@@ -84,7 +85,9 @@ public class BookAddServlet extends HttpServlet {
 							}
 							
 							if(valid){
-								uploadedFile = new File(storagePath, fileName);
+								long millis = System.currentTimeMillis() % 1000;
+								bookFileFilename = fileName.substring(0, fileName.length() - 4) + millis;
+								uploadedFile = new File(storagePath, bookFileFilename + ".pdf");
 								fileItem = item;
 							}
 						}
@@ -124,7 +127,7 @@ public class BookAddServlet extends HttpServlet {
 					uploadedFile.createNewFile();
 					fileItem.write(uploadedFile);
 					
-					newBookFile.setFileName(fileName.substring(0, fileName.length() - 4));
+					newBookFile.setFileName(bookFileFilename);
 					newBookFile.setFileMime("application/pdf");
 					
 					bookFileDao.persist(newBookFile);

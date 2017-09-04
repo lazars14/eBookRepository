@@ -84,16 +84,6 @@
 </form>
 
 </br>
-<!-- 
-	
-	<ovde mora ajax poziv za rezultate, ne mere drugacije
-	
-	<div id="searchResultDiv">
-	
-	</div>
-	
-	
-	 -->
 
 
 <a href="${ location }"><fmt:message key="pocetna"/></a>

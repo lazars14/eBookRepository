@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.IntField;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 
 import dao.BookFileDAO;
@@ -71,10 +72,12 @@ public class CustomIndexer {
 		BookFile bookFile = bookFileDao.findById(book.getEBookid());
 		String bookText = pdfHandler.getText(new File(fileDao.buildFileNamePath(bookFile.getFileName(), book.getEBookcategory().getCategoryId())));
 		
-		doc.add(new TextField("title", book.getEBooktitle(), Store.YES));
+		doc.add(new StringField("title", book.getEBooktitle(), Store.YES));
 		doc.add(new TextField("content", bookText, Store.YES));
 		doc.add(new IntField("language", book.getEBooklanguage().getLanguageId(), Store.YES));
-		doc.add(new TextField("filename", bookFile.getFileName(), Store.YES));
+		doc.add(new StringField("filename", bookFile.getFileName(), Store.YES));
+		doc.add(new IntField("category", book.getEBookid(), Store.YES));
+		doc.add(new StringField("bookFileId", bookFile.getFileId().toString(), Store.YES));
 		
 		return indexer.add(doc);
 	}
@@ -82,7 +85,7 @@ public class CustomIndexer {
 	public boolean deleteIndex(Ebook book){
 		Indexer indexer = Indexer.getInstance();
 		
-		return indexer.delete(book.getEBookfileid().getFileName());
+		return indexer.delete(book.getEBookfileid().getFileId().toString());
 	}
 	
 	public boolean editIndex(Ebook book){
@@ -107,10 +110,12 @@ public class CustomIndexer {
 		BookFile bookFile = bookFileDao.findById(book.getEBookid());
 		String bookText = pdfHandler.getText(new File(fileDao.buildFileNamePath(bookFile.getFileName(), book.getEBookcategory().getCategoryId())));
 		
-		doc.add(new TextField("title", book.getEBooktitle(), Store.YES));
+		doc.add(new StringField("title", book.getEBooktitle(), Store.YES));
 		doc.add(new TextField("content", bookText, Store.YES));
 		doc.add(new IntField("language", book.getEBooklanguage().getLanguageId(), Store.YES));
-		doc.add(new TextField("filename", bookFile.getFileName(), Store.YES));
+		doc.add(new StringField("filename", bookFile.getFileName(), Store.YES));
+		doc.add(new IntField("category", book.getEBookid(), Store.YES));
+		doc.add(new StringField("bookFileId", bookFile.getFileId().toString(), Store.YES));
 		
 		return indexer.updateDocument(book.getEBookfileid().getFileName(), doc.getFields());
 	}
