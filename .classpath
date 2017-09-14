@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_121">
+	<classpathentry excluding="src/" kind="src" path=""/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
@@ -29,5 +30,11 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-scratchpad-3.7-20101029.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xmlbeans-2.3.0.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/bcprov-1.45.jar"/>
+	<classpathentry kind="lib" path="lib/javax.servlet-api-3.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/apache-commons.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.5.jar"/>
+	<classpathentry kind="lib" path="lib/org.apache.commons.fileupload.jar"/>
+	<classpathentry kind="lib" path="lib/apache-logging-log4j.jar"/>
+	<classpathentry kind="lib" path="lib/pdfbox-1.2.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
