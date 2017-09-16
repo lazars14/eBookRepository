@@ -43,7 +43,7 @@
 		</c:otherwise>
 	</c:choose>
 	
-	<form name="form" action="${ servlet }" method="post" enctype="multipart/form-data" onsubmit="return checkFile()">
+	<form name="form" action="${ servlet }" method="post" enctype="multipart/form-data" onsubmit="return checkFile(${requestScope.action})">
 		<table>
 			<tr>
 				<td><fmt:message key="naslov"/></td>

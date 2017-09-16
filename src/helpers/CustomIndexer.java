@@ -76,7 +76,7 @@ public class CustomIndexer {
 		doc.add(new TextField("content", bookText, Store.YES));
 		doc.add(new IntField("language", book.getEBooklanguage().getLanguageId(), Store.YES));
 		doc.add(new StringField("filename", bookFile.getFileName(), Store.YES));
-		doc.add(new IntField("category", book.getEBookid(), Store.YES));
+		doc.add(new IntField("category", book.getEBookcategory().getCategoryId(), Store.YES));
 		doc.add(new StringField("bookFileId", bookFile.getFileId().toString(), Store.YES));
 		
 		return indexer.add(doc);
@@ -114,10 +114,10 @@ public class CustomIndexer {
 		doc.add(new TextField("content", bookText, Store.YES));
 		doc.add(new IntField("language", book.getEBooklanguage().getLanguageId(), Store.YES));
 		doc.add(new StringField("filename", bookFile.getFileName(), Store.YES));
-		doc.add(new IntField("category", book.getEBookid(), Store.YES));
+		doc.add(new IntField("category", book.getEBookcategory().getCategoryId(), Store.YES));
 		doc.add(new StringField("bookFileId", bookFile.getFileId().toString(), Store.YES));
 		
-		return indexer.updateDocument(book.getEBookfileid().getFileName(), doc.getFields());
+		return indexer.updateDocument(book.getEBookfileid().getFileId().toString(), doc.getFields());
 	}
 	
 	public String[] getAuthors(String authorsString, boolean singleAuthor){

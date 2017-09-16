@@ -39,6 +39,8 @@ public class BookPrepareAddEditServlet extends HttpServlet {
 			Ebook eBook = new Ebook();
 			int idInt;
 			
+			request.setAttribute("action", "edit");
+			
 			try
 			{
 				idInt = Integer.parseInt(idStr);

@@ -26,7 +26,6 @@ import entities.BookFile;
 import entities.Ebook;
 import helpers.CustomIndexer;
 
-@MultipartConfig
 public class BookEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -54,7 +53,6 @@ public class BookEditServlet extends HttpServlet {
 		}
 		
 		int id = Integer.parseInt(request.getParameter("id"));
-		System.out.println("id je " + id);
 		Ebook newEbook = eBookDao.findById(id);
 		
 		BookFile newBookFile = new BookFile();
@@ -82,19 +80,18 @@ public class BookEditServlet extends HttpServlet {
 						if(!item.isFormField()){
 							fileName = item.getName();
 							
-							fileChanged = true;
-							
-							System.out.println("E sad je usao u fajl, fajl se zove " + fileName);
-							
-							long millis = System.currentTimeMillis() % 1000;
-							bookFileFilename = fileName.substring(0, fileName.length() - 4) + millis;
-							uploadedFile = new File(storagePath, bookFileFilename + ".pdf");
-							fileItem = item;
+							if(fileName != ""){
+								fileChanged = true;
+								
+								long millis = System.currentTimeMillis() % 1000;
+								bookFileFilename = fileName.substring(0, fileName.length() - 4) + millis;
+								uploadedFile = new File(storagePath, bookFileFilename + ".pdf");
+								fileItem = item;
+							}
+	
 						}
 						else{
 							String fieldName = item.getFieldName();
-							
-							System.out.println(fieldName);
 							
 							switch(fieldName){
 							case "id":
@@ -124,7 +121,6 @@ public class BookEditServlet extends HttpServlet {
 					}
 					
 					if(fileChanged){
-						System.out.println("Promenjen fajl");
 						uploadedFile.createNewFile();
 						fileItem.write(uploadedFile);
 						
@@ -134,8 +130,6 @@ public class BookEditServlet extends HttpServlet {
 						
 						newEbook.setEBookfileid(newBookFile);
 					}
-					
-					System.out.println("Sad se menja fajl u bazi");
 					
 					eBookDao.merge(newEbook);
 					
@@ -150,15 +144,13 @@ public class BookEditServlet extends HttpServlet {
 			
 			boolean successfullIndexUpdate = customIndexer.editIndex(newEbook);
 			
-			System.out.println(successfullIndexUpdate + " je izvrseno indeksiranje promena");
-			
 			if(successfullIndexUpdate){
 				LOGGER.info("A book with the id: " + newEbook.getEBookid() + " has been changed by " + loggedUser.getAppUserUsername());
 			} else {
 				LOGGER.info("The user pointed to the wrong file while trying to change the ebook with id " + newEbook.getEBookid() + ".");
 			}
 			
-			getServletContext().getRequestDispatcher("/MenuAdminServlet").forward(request, response);
+			getServletContext().getRequestDispatcher("/MenuAdminServlet?id=" + newEbook.getEBookcategory().getCategoryId()).forward(request, response);
 		} 
 		catch(NumberFormatException e) {
 			LOGGER.error(e);

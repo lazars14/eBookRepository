@@ -130,6 +130,7 @@ public class Indexer {
 			is.search(query, collector);
 			
 			ScoreDoc[] scoreDocs = collector.topDocs().scoreDocs;
+			
 			if(scoreDocs.length > 0){
 				int docID = scoreDocs[0].doc;
 				Document doc = is.doc(docID);
@@ -151,7 +152,6 @@ public class Indexer {
 				}
 			}
 			
-			System.out.println("Puko");
 			return false;
 			
 		} catch (IOException e) {
