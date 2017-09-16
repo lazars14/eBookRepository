@@ -51,14 +51,38 @@ function getExtension(filename) {
     return parts[parts.length - 1];
 }
 
-function checkFile(){
+function checkIfEmpty(){
 	if( form.fileUpload.files.length == 0 ){
 	    alert("You have to input some file!");
 	    return false;
-	}else if(getExtension(form.fileUpload.files[0].name) != 'pdf'){
+	}
+	
+	return true;
+}
+
+function checkFileType(){
+	if(getExtension(form.fileUpload.files[0].name) != 'pdf'){
 		alert("Wrong format! You have to input a pdf file!")
 		return false;
 	}
 	
 	return true;
+}
+
+function checkFile(addOrEdit){
+	var notEmpty = checkIfEmpty();
+	var notWrongType = false;
+	if(notEmpty){
+		notWrongType = checkFileType();
+	}
+	
+	if(addOrEdit == "add" && notEmpty == true && notWrongType == true){
+		return true;
+	} else if(addOrEdit == "edit" && notEmpty == false){
+		return true;
+	} else if(addOrEdit == "edit" && notEmpty == true && notWrongType == true){
+		return true;
+	}
+	
+	return false;
 }

@@ -39,7 +39,7 @@
 		</c:when>
 		<c:otherwise>
 			<h1><fmt:message key="izmeniKnjigu"/></h1>
-			<c:set var="servlet" scope="page" value="BookEditServlet"/>
+			<c:set var="servlet" scope="page" value="BookEditServlet?id=${eBookAddEdit.EBookid}"/>
 		</c:otherwise>
 	</c:choose>
 	
