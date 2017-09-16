@@ -12,12 +12,12 @@ public class FileDAO {
 	
 	private static final String PATH = ResourceBundle.getBundle("app").getString("storage");
 	private static final String PDF_EXTENSION = ".pdf";
-	private static final String DELIMITER = "\\";
+	private static final String DELIMITER = "/";
 
 	public void createFolder(int categoryId){
 		StringBuilder sb = new StringBuilder();
 		sb.append(PATH);
-		sb.append("\\");
+		sb.append("/");
 		sb.append(String.valueOf(categoryId));
         
 		new File(sb.toString()).mkdirs();
