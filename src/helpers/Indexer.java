@@ -2,9 +2,11 @@ package helpers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
@@ -12,6 +14,8 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -20,6 +24,8 @@ import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.SimpleFSDirectory;
 import org.apache.lucene.util.Version;
+
+import com.sun.media.jfxmedia.logging.Logger;
 
 import helpers.SerbianAnalyzer;
 import helpers.DocumentHandler;
@@ -192,6 +198,45 @@ public class Indexer {
 		}
 	}
 	
+	
+	public ArrayList search(String queryString){
+		ArrayList<String> bookFileIds = new ArrayList<String>();
+		Analyzer analyzer = new SerbianAnalyzer();
+		QueryParser queryParser = new QueryParser(v, "text", analyzer);
+		
+		System.out.println("Ovo je query string(u Indexer-u): " + queryString);
+		
+		try{
+			DirectoryReader reader = DirectoryReader.open(this.indexDir);
+			IndexSearcher is = new IndexSearcher(reader);
+			Query query = queryParser.parse(queryString);
+			TopScoreDocCollector collector = TopScoreDocCollector.create(10, true);
+			is.search(query, collector);
+			
+			ScoreDoc[] scoreDocs = collector.topDocs().scoreDocs;
+			
+			System.out.println("Ima " + scoreDocs.length + " pogodaka");
+			
+			if(scoreDocs.length > 0){
+				int docID = scoreDocs[0].doc;
+				Document doc = is.doc(docID);
+				if(doc != null){
+					String bookFileId = doc.getField("bookFileId").stringValue();
+					System.out.println("bookFileId rezultata je " + bookFileId);
+					
+					bookFileIds.add(bookFileId);
+				}
+			}
+		} catch(IOException e){
+			e.printStackTrace();
+		} catch(ParseException e){
+			e.printStackTrace();
+		}
+		
+		
+		return bookFileIds;
+	}
+	
 	protected void finalize() throws Throwable {
 		this.indexWriter.close();
 	}
@@ -209,5 +254,7 @@ public class Indexer {
 			return null;
 		}
 	}
+	
+	
 
 }

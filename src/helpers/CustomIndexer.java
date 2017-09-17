@@ -1,11 +1,11 @@
 package helpers;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.IntField;
@@ -143,5 +143,12 @@ public class CustomIndexer {
 		}
 		
 		return keywordsList;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<String> search(String query){
+		Indexer indexer = Indexer.getInstance();
+		
+		return indexer.search(query);
 	}
 }
