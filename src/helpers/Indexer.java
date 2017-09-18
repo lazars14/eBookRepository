@@ -25,8 +25,6 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.SimpleFSDirectory;
 import org.apache.lucene.util.Version;
 
-import com.sun.media.jfxmedia.logging.Logger;
-
 import helpers.SerbianAnalyzer;
 import helpers.DocumentHandler;
 import helpers.PDFHandler;
@@ -199,7 +197,7 @@ public class Indexer {
 	}
 	
 	
-	public ArrayList search(String queryString){
+	public ArrayList<String> search(String queryString){
 		ArrayList<String> bookFileIds = new ArrayList<String>();
 		Analyzer analyzer = new SerbianAnalyzer();
 		QueryParser queryParser = new QueryParser(v, "text", analyzer);
@@ -215,16 +213,14 @@ public class Indexer {
 			
 			ScoreDoc[] scoreDocs = collector.topDocs().scoreDocs;
 			
-			System.out.println("Ima " + scoreDocs.length + " pogodaka");
-			
 			if(scoreDocs.length > 0){
-				int docID = scoreDocs[0].doc;
-				Document doc = is.doc(docID);
-				if(doc != null){
-					String bookFileId = doc.getField("bookFileId").stringValue();
-					System.out.println("bookFileId rezultata je " + bookFileId);
-					
-					bookFileIds.add(bookFileId);
+				for(int i = 0; i < scoreDocs.length; i++){
+					int docID = scoreDocs[i].doc;
+					Document doc = is.doc(docID);
+					if(doc != null){
+						String bookFileId = doc.getField("bookFileId").stringValue();
+						bookFileIds.add(bookFileId);
+					}
 				}
 			}
 		} catch(IOException e){
@@ -233,7 +229,7 @@ public class Indexer {
 			e.printStackTrace();
 		}
 		
-		
+		System.out.println(bookFileIds.size() + " broj id-eva u indexer-u");
 		return bookFileIds;
 	}
 	

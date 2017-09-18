@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Ebook.findAll", query = "SELECT e FROM Ebook e")
     , @NamedQuery(name = "Ebook.findByEBookid", query = "SELECT e FROM Ebook e WHERE e.eBookid = :eBookid")
-	, @NamedQuery(name = "Ebook.findBooksByBookFileId", query = "SELECT e FROM Ebook e WHERE e.eBookfileid.fileId = :bookFileId")
+	, @NamedQuery(name = "Ebook.findBooksByBookFile", query = "SELECT e FROM Ebook e WHERE e.eBookfileid = :bookFile")
     , @NamedQuery(name = "Ebook.findByEBooktitle", query = "SELECT e FROM Ebook e WHERE e.eBooktitle = :eBooktitle")
     , @NamedQuery(name = "Ebook.findByEBookauthor", query = "SELECT e FROM Ebook e WHERE e.eBookauthor = :eBookauthor")
     , @NamedQuery(name = "Ebook.findByEBookkeywords", query = "SELECT e FROM Ebook e WHERE e.eBookkeywords = :eBookkeywords")

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import entities.BookFile;
 import entities.Category;
 import entities.Ebook;
 
@@ -35,11 +36,15 @@ public class EbookDAO extends GenericDAO<Ebook, Integer> {
 		ArrayList<Ebook> books = new ArrayList<Ebook>();
 		EntityManager em = GenericDAO.getEM();
 		Ebook book;
+		BookFile book_file;
 		
 		for(int i = 0; i < search.size(); i++){
-			Query q = em.createNamedQuery("Ebook.findBooksByBookFileId");
-			q.setParameter("bookFileId", search.get(i));
+			Query q = em.createNamedQuery("BookFile.findByFileId");
+			q.setParameter("fileId", Integer.parseInt(search.get(i)));
+			book_file = (BookFile) q.getSingleResult();
 			
+			q = em.createNamedQuery("Ebook.findBooksByBookFile");
+			q.setParameter("bookFile", book_file);
 			book = (Ebook) q.getSingleResult();
 			books.add(book);
 		}

@@ -72,12 +72,12 @@ public class CustomIndexer {
 		BookFile bookFile = bookFileDao.findById(book.getEBookid());
 		String bookText = pdfHandler.getText(new File(fileDao.buildFileNamePath(bookFile.getFileName(), book.getEBookcategory().getCategoryId())));
 		
-		doc.add(new StringField("title", book.getEBooktitle(), Store.YES));
+		doc.add(new TextField("title", book.getEBooktitle(), Store.YES));
 		doc.add(new TextField("content", bookText, Store.YES));
-		doc.add(new IntField("language", book.getEBooklanguage().getLanguageId(), Store.YES));
-		doc.add(new StringField("filename", bookFile.getFileName(), Store.YES));
-		doc.add(new IntField("category", book.getEBookcategory().getCategoryId(), Store.YES));
-		doc.add(new StringField("bookFileId", bookFile.getFileId().toString(), Store.YES));
+		doc.add(new TextField("language", book.getEBooklanguage().getLanguageId().toString(), Store.YES));
+		doc.add(new TextField("filename", bookFile.getFileName(), Store.YES));
+		doc.add(new TextField("category", book.getEBookcategory().getCategoryId().toString(), Store.YES));
+		doc.add(new TextField("bookFileId", bookFile.getFileId().toString(), Store.YES));
 		
 		return indexer.add(doc);
 	}
@@ -110,12 +110,12 @@ public class CustomIndexer {
 		BookFile bookFile = bookFileDao.findById(book.getEBookid());
 		String bookText = pdfHandler.getText(new File(fileDao.buildFileNamePath(bookFile.getFileName(), book.getEBookcategory().getCategoryId())));
 		
-		doc.add(new StringField("title", book.getEBooktitle(), Store.YES));
+		doc.add(new TextField("title", book.getEBooktitle(), Store.YES));
 		doc.add(new TextField("content", bookText, Store.YES));
-		doc.add(new IntField("language", book.getEBooklanguage().getLanguageId(), Store.YES));
-		doc.add(new StringField("filename", bookFile.getFileName(), Store.YES));
-		doc.add(new IntField("category", book.getEBookcategory().getCategoryId(), Store.YES));
-		doc.add(new StringField("bookFileId", bookFile.getFileId().toString(), Store.YES));
+		doc.add(new TextField("language", book.getEBooklanguage().getLanguageId().toString(), Store.YES));
+		doc.add(new TextField("filename", bookFile.getFileName(), Store.YES));
+		doc.add(new TextField("category", book.getEBookcategory().getCategoryId().toString(), Store.YES));
+		doc.add(new TextField("bookFileId", bookFile.getFileId().toString(), Store.YES));
 		
 		return indexer.updateDocument(book.getEBookfileid().getFileId().toString(), doc.getFields());
 	}
